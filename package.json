@@ -1,0 +1,25 @@
+{
+    "name": "redux-obtain",
+    "version": "0.0.1",
+    "description": "An opinionated way to obtain data from a server",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "author": "Robertson McClure <ephipitau@gmail.com>",
+    "license": "MIT",
+    "scripts": {
+        "prepublish": "npm run build",
+        "build": "tsc"
+    },
+    "devDependencies": {
+        "@types/jest": "^22.0.1",
+        "@types/node": "^9.3.0",
+        "@types/react": "^16.0.34",
+        "@types/react-dom": "^16.0.3",
+        "typescript": "^2.6.2"
+    },
+    "dependencies": {
+        "bluebird": "^3.5.1",
+        "react": "^16.2.0",
+        "react-redux": "^5.0.6"
+    }
+}
