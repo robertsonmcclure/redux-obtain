@@ -34,14 +34,14 @@ export const fetcher = (
     )(
         class extends Component {
             componentWillMount() {
-                this.props.dispatch(actions.addResource(name))
+                this.props.addResource(name)
             }
             componentDidMount() {
                 this.sendNetworkRequest({ requestBody: this.props.requestBody })
             }
             componentWillUnmount() {
                 this.networkRequest && this.networkRequest.cancel()
-                !persistResource && this.props.dispatch(actions.removeResource(name))
+                !persistResource && this.props.removeResource(name)
             }
             componentWillReceiveProps(nextProps: any) {
                 const differentFilter =
@@ -66,7 +66,7 @@ export const fetcher = (
                 }
             }
             sendNetworkRequest = ({ requestBody }: any) => {
-                this.props.dispatch(actions.requestResource(name))
+                this.props.requestResource(name)
                 this.networkRequest = new Promise((res: any, rej: any) =>
                     fetch(this.props.endpoint, {
                         method: method,
@@ -84,16 +84,12 @@ export const fetcher = (
                             return res
                                 .json()
                                 .then((data: any) =>
-                                    this.props.dispatch(
-                                        actions.fetchSuccess(name, data, acceptResponse)
-                                    )
+                                    this.props.fetchSuccess(name, data, acceptResponse)
                                 )
                         } else {
                             return res
                                 .text()
-                                .then((error: any) =>
-                                    this.props.dispatch(actions.fetchError(name, error))
-                                )
+                                .then((error: any) => this.props.fetchError(name, error))
                         }
                     })
                     .catch((e: any) => console.error(e))
