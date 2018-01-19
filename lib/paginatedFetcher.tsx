@@ -1,5 +1,6 @@
 import * as actions from "./actions"
 import * as C from "./constants"
+import { config } from "./config"
 const React = require("react")
 const { Component } = React
 const { connect } = require("react-redux")
@@ -43,7 +44,7 @@ export const paginatedFetcher = (
     connect(
         (state: any, ownProps: any) => ({
             endpoint: typeof endpoint === "function" ? endpoint(state, ownProps) : endpoint,
-            token: state.authentication.token,
+            token: config.tokenSelector(state),
             resource: state[C.REDUX_STORE_NAME][name],
             requestBody: requestBodySelector && requestBodySelector(state, ownProps)
         }),
