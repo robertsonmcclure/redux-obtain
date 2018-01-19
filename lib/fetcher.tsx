@@ -5,6 +5,8 @@ const React = require("react")
 const { Component } = React
 const { connect } = require("react-redux")
 const Promise = require("bluebird")
+const _ = require("lodash")
+const getDisplayName = require("react-display-name")
 
 Promise.config({ cancellation: true })
 
@@ -24,8 +26,8 @@ export const fetcher = (
     connect(
         (state: any, ownProps: any) => ({
             endpoint: typeof endpoint === "function" ? endpoint(state, ownProps) : endpoint,
-            token: config.tokenSelector(state),
-            resource: state[C.REDUX_STORE_NAME][name],
+            requestHeader: config.requestHeaderSelector(state),
+            resource: state[config.reduxStoreName][name],
             requestBody: requestBodySelector && requestBodySelector(state)
         }),
         {
@@ -33,7 +35,8 @@ export const fetcher = (
             ...actions
         }
     )(
-        class extends Component {
+        class Fetcher extends Component {
+            static displayName = `Fetcher(${getDisplayName.default(WrappedComponent)})`
             componentWillMount() {
                 this.props.addResource(name)
             }
@@ -45,22 +48,7 @@ export const fetcher = (
                 !persistResource && this.props.removeResource(name)
             }
             componentWillReceiveProps(nextProps: any) {
-                const differentFilter =
-                    nextProps.requestBody &&
-                    Object.keys(nextProps.requestBody).reduce((acc, key) => {
-                        if (C.LIST_FILTER_VALUES.indexOf(key) !== -1) {
-                            return (
-                                acc ||
-                                (this.props.requestBody[key] &&
-                                    nextProps.requestBody[key] &&
-                                    this.props.requestBody[key].length !==
-                                        nextProps.requestBody[key].length)
-                            )
-                        } else {
-                            return acc || this.props.requestBody[key] !== nextProps.requestBody[key]
-                        }
-                    }, false)
-                if (differentFilter) {
+                if (!_.isEqual(this.props.requestBody, nextProps.requestBody)) {
                     this.sendNetworkRequest({
                         requestBody: nextProps.requestBody
                     })
@@ -71,10 +59,7 @@ export const fetcher = (
                 this.networkRequest = new Promise((res: any, rej: any) =>
                     fetch(this.props.endpoint, {
                         method: method,
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Basic ${this.props.token}`
-                        },
+                        headers: this.props.requestHeader,
                         body: method !== "GET" && JSON.stringify({ filter: requestBody })
                     })
                         .then(x => res(x))
@@ -103,7 +88,8 @@ export const fetcher = (
                 delete pt.fetchSuccess
                 delete pt.fetchError
                 delete pt.removeResource
-                delete pt.token
+                delete pt.requestBody
+                delete pt.requestHeader
                 delete pt.resource
                 return this.props.resource ? (
                     <WrappedComponent {...pt} {...this.props.resource} />

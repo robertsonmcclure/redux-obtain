@@ -1,9 +1,7 @@
 import * as C from "./constants"
 
-export const createReducer = (initialState: any, handlers: any) => (
-    state = initialState,
-    action: any
-) => (handlers.hasOwnProperty(action.type) ? handlers[action.type](state, action) : state)
+const createReducer = (initialState: any, handlers: any) => (state = initialState, action: any) =>
+    handlers.hasOwnProperty(action.type) ? handlers[action.type](state, action) : state
 
 export const reducer = createReducer(C.initialState, {
     [C.ADD_RESOURCE]: (state: any, action: any) => ({

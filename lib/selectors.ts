@@ -1,8 +1,8 @@
-import * as C from "./constants"
+import { config } from "./config"
 
 export const getResourceData = (name: string, selector: any) => (state: any) =>
-    state[C.REDUX_STORE_NAME][name]
+    state[config.reduxStoreName][name]
         ? selector
-          ? selector(state[C.REDUX_STORE_NAME][name].data)
-          : state[C.REDUX_STORE_NAME][name].data
+          ? selector(state[config.reduxStoreName][name].data)
+          : state[config.reduxStoreName][name].data
         : undefined

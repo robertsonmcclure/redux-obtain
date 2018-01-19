@@ -1,7 +1,14 @@
-export const config = {
-    tokenSelector: (state: any) => state.authentication.token
+export let config = {
+    requestHeaderSelector: (state: any) => ({
+        "Content-Type": "application/json",
+        Authorization: `Basic ${state.authentication.token}`
+    }),
+    reduxStoreName: "resources"
 }
 
 export const setupFetcher = (options: any) => {
-    config.tokenSelector = options.tokenSelector || config.tokenSelector
+    config = {
+        ...config,
+        ...options
+    }
 }

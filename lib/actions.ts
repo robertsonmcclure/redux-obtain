@@ -6,7 +6,7 @@ export const addResource = (name: string, paginationKey?: string) => ({
     paginationKey
 })
 
-export const modifyResource = (name: string, dataTransform: any) => ({
+export const modifyResource = ({ name, dataTransform }: any) => ({
     type: C.MODIFY_RESOURCE,
     name,
     dataTransform
