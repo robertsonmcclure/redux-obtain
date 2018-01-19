@@ -29,7 +29,8 @@ export const fetcher = (
             requestBody: requestBodySelector && requestBodySelector(state)
         }),
         {
-            ...extraActions
+            ...extraActions,
+            ...actions
         }
     )(
         class extends Component {
