@@ -7,8 +7,17 @@ const Promise = require("bluebird")
 
 Promise.config({ cancellation: true })
 
+interface Fetcher {
+    name: string
+    endpoint: string | Function
+    method: "GET" | "POST" | "PUT" | "DELETE"
+    acceptResponse?: Function
+    persistResource?: boolean
+    requestBodySelector?: Function
+}
+
 export const fetcher = (
-    { name, endpoint, method, acceptResponse, persistResource, requestBodySelector }: any,
+    { name, endpoint, method, acceptResponse, persistResource, requestBodySelector }: Fetcher,
     extraActions: any
 ) => (WrappedComponent: any) =>
     connect(
@@ -19,20 +28,19 @@ export const fetcher = (
             requestBody: requestBodySelector && requestBodySelector(state)
         }),
         {
-            ...extraActions,
-            ...actions
+            ...extraActions
         }
     )(
         class extends Component {
             componentWillMount() {
-                this.props.addResource({ name })
+                this.props.dispatch(actions.addResource(name))
             }
             componentDidMount() {
                 this.sendNetworkRequest({ requestBody: this.props.requestBody })
             }
             componentWillUnmount() {
                 this.networkRequest && this.networkRequest.cancel()
-                !persistResource && this.props.removeResource({ name })
+                !persistResource && this.props.dispatch(actions.removeResource(name))
             }
             componentWillReceiveProps(nextProps: any) {
                 const differentFilter =
@@ -57,7 +65,7 @@ export const fetcher = (
                 }
             }
             sendNetworkRequest = ({ requestBody }: any) => {
-                this.props.requestResource({ name })
+                this.props.dispatch(actions.requestResource(name))
                 this.networkRequest = new Promise((res: any, rej: any) =>
                     fetch(this.props.endpoint, {
                         method: method,
@@ -72,16 +80,22 @@ export const fetcher = (
                 )
                     .then((res: any) => {
                         if (res.status === 200) {
-                            return res.json()
+                            return res
+                                .json()
+                                .then((data: any) =>
+                                    this.props.dispatch(
+                                        actions.fetchSuccess(name, data, acceptResponse)
+                                    )
+                                )
                         } else {
-                            throw new Error(`Web Service responded with ${res.status}`)
+                            return res
+                                .text()
+                                .then((error: any) =>
+                                    this.props.dispatch(actions.fetchError(name, error))
+                                )
                         }
                     })
-                    .then((data: any) => this.props.fetchSuccess({ name, data, acceptResponse }))
-                    .catch((error: any) => {
-                        console.log(error)
-                        return this.props.fetchError({ name, error })
-                    })
+                    .catch((e: any) => console.error(e))
                 return this.networkRequest
             }
             render() {

@@ -13,8 +13,31 @@ const getOrderBys = ({ sortBy, sortDirection }: any) =>
     sortDirection &&
     sortBy.map((column: any, index: any) => ({ column, direction: sortDirection[index] }))
 
+interface OrderBys {
+    sortBy: string[]
+    sortDirection: string[]
+}
+
+interface PaginatedFetcher {
+    name: string
+    endpoint: string | Function
+    method: "GET" | "POST" | "PUT" | "DELETE"
+    acceptResponse?: Function
+    persistResource?: boolean
+    requestBodySelector?: Function
+    defaultOrderBys: OrderBys
+    paginationKey: string
+}
+
 export const paginatedFetcher = (
-    { name, endpoint, defaultOrderBys, persistResource, requestBodySelector, paginationKey }: any,
+    {
+        name,
+        endpoint,
+        defaultOrderBys,
+        persistResource,
+        requestBodySelector,
+        paginationKey
+    }: PaginatedFetcher,
     extraActions: any
 ) => (WrappedComponent: any) =>
     connect(
@@ -31,7 +54,7 @@ export const paginatedFetcher = (
     )(
         class extends Component {
             componentWillMount() {
-                this.props.addResource({ name, paginationKey })
+                this.props.addResource(name, paginationKey)
             }
             componentDidMount() {
                 this.sendNetworkRequest({
@@ -44,7 +67,7 @@ export const paginatedFetcher = (
             }
             componentWillUnmount() {
                 this.networkRequest && this.networkRequest.cancel()
-                !persistResource && this.props.removeResource({ name })
+                !persistResource && this.props.removeResource(name)
             }
             componentWillReceiveProps(nextProps: any) {
                 const differentFilter =
@@ -73,7 +96,7 @@ export const paginatedFetcher = (
                 }
             }
             sendNetworkRequest = ({ limit, offset, orderBys, firstLoad, requestBody }: any) => {
-                firstLoad && this.props.requestResource({ name })
+                firstLoad && this.props.requestResource(name)
                 this.networkRequest = new Promise((res: any, rej: any) =>
                     fetch(this.props.endpoint, {
                         method: "POST",
@@ -102,12 +125,12 @@ export const paginatedFetcher = (
                     .then(
                         (data: any) =>
                             firstLoad
-                                ? this.props.fetchSuccess({ name, data })
-                                : this.props.fetchAdditionalSuccess({ name, data })
+                                ? this.props.fetchSuccess(name, data)
+                                : this.props.fetchAdditionalSuccess(name, data)
                     )
                     .catch((error: any) => {
                         console.log(error)
-                        return this.props.fetchError({ name, error })
+                        return this.props.fetchError(name, error)
                     })
                 return this.networkRequest
             }
