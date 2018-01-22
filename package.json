@@ -24,8 +24,12 @@
         "test":
             "cross-env BABEL_ENV=commonjs NODE_ENV=test mocha --compilers js:babel-register --recursive --require ./test/setup.js --reporter spec",
         "test:watch": "npm test -- --watch",
-        "test:cov": "cross-env NODE_ENV=test nyc --all npm test",
-        "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
+        "test:cov": "cross-env NODE_ENV=test nyc npm test",
+        "coverage": "nyc report > coverage.lcov && codecov"
+    },
+    "nyc": {
+        "all": true,
+        "include": ["src/**"]
     },
     "devDependencies": {
         "babel-cli": "^6.3.17",
