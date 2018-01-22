@@ -8,29 +8,35 @@
         "type": "git",
         "url": "https://github.com/robertsonmcclure/redux-obtain.git"
     },
-    "keywords": ["react", "reactjs", "redux"],
+    "keywords": [
+        "react",
+        "reactjs",
+        "redux"
+    ],
     "license": "MIT",
     "scripts": {
         "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
         "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
-        "build:umd":
-            "cross-env BABEL_ENV=rollup NODE_ENV=development rollup -c -o dist/react-redux.js",
-        "build:umd:min":
-            "cross-env BABEL_ENV=rollup NODE_ENV=production rollup -c -o dist/react-redux.min.js",
+        "build:umd": "cross-env BABEL_ENV=rollup NODE_ENV=development rollup -c -o dist/react-redux.js",
+        "build:umd:min": "cross-env BABEL_ENV=rollup NODE_ENV=production rollup -c -o dist/react-redux.min.js",
         "build": "npm run build:commonjs",
         "clean": "rimraf lib dist es coverage",
         "lint": "eslint src test",
         "prepare": "npm run clean && npm run build",
-        "test":
-            "cross-env BABEL_ENV=commonjs NODE_ENV=test mocha --compilers js:babel-register --recursive --require ./test/setup.js --reporter spec",
+        "test": "cross-env BABEL_ENV=commonjs NODE_ENV=test mocha --compilers js:babel-register --recursive --require ./test/setup.js --reporter spec",
         "test:watch": "npm test -- --watch",
         "test:cov": "cross-env NODE_ENV=test nyc npm test",
         "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
     },
     "nyc": {
         "all": true,
-        "include": ["src/**"],
-        "extension": [".jsx", ".js"]
+        "include": [
+            "src/**"
+        ],
+        "extension": [
+            ".jsx",
+            ".js"
+        ]
     },
     "devDependencies": {
         "babel-cli": "^6.3.17",
@@ -63,6 +69,7 @@
         "babel-plugin-transform-react-display-name": "^6.4.0",
         "babel-plugin-transform-react-jsx": "^6.4.0",
         "babel-register": "^6.3.13",
+        "chai": "^4.1.2",
         "codecov": "^2.2.0",
         "create-react-class": "^15.5.3",
         "cross-env": "^5.0.1",
@@ -77,6 +84,7 @@
         "mocha": "^3.2.0",
         "nyc": "^11.0.2",
         "react-dom": "^15.5.4",
+        "redux-mock-store": "^1.4.0",
         "rimraf": "^2.3.4",
         "rollup": "^0.43.0",
         "rollup-plugin-babel": "^2.7.1",

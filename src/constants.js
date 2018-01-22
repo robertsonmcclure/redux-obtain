@@ -2,7 +2,8 @@ export const initialState = {}
 export const initialResourceState = {
     data: {},
     loading: false,
-    error: false
+    error: false,
+    paginationKey: undefined
 }
 
 const prefix = "@@fetcher"
