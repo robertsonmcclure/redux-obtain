@@ -22,7 +22,6 @@ export const reducer = createReducer(C.initialState, {
         ...state,
         [action.name]: {
             ...state[action.name],
-            data: {},
             loading: true,
             error: false
         }
