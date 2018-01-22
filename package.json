@@ -27,10 +27,6 @@
         "test:cov": "cross-env NODE_ENV=test nyc --all npm test",
         "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
     },
-    "nyc": {
-        "all": true,
-        "include": ["src/**/*.js"]
-    },
     "devDependencies": {
         "babel-cli": "^6.3.17",
         "babel-core": "^6.3.26",
