@@ -1,6 +1,6 @@
 {
     "name": "redux-obtain",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "An opinionated way to obtain data from a server",
     "main": "lib/index.js",
     "author": "Robertson McClure <ephipitau@gmail.com>",
@@ -8,21 +8,22 @@
         "type": "git",
         "url": "https://github.com/robertsonmcclure/redux-obtain.git"
     },
-    "keywords": ["react", "reactjs", "redux"],
+    "keywords": [
+        "react",
+        "reactjs",
+        "redux"
+    ],
     "license": "MIT",
     "scripts": {
         "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
         "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
-        "build:umd":
-            "cross-env BABEL_ENV=rollup NODE_ENV=development rollup -c -o dist/react-redux.js",
-        "build:umd:min":
-            "cross-env BABEL_ENV=rollup NODE_ENV=production rollup -c -o dist/react-redux.min.js",
+        "build:umd": "cross-env BABEL_ENV=rollup NODE_ENV=development rollup -c -o dist/react-redux.js",
+        "build:umd:min": "cross-env BABEL_ENV=rollup NODE_ENV=production rollup -c -o dist/react-redux.min.js",
         "build": "npm run build:commonjs",
         "clean": "rimraf lib dist es coverage",
         "lint": "eslint src test",
         "prepare": "npm run clean && npm run build",
-        "test":
-            "cross-env BABEL_ENV=commonjs NODE_ENV=test mocha --compilers js:babel-register --recursive --require ./test/setup.js",
+        "test": "cross-env BABEL_ENV=commonjs NODE_ENV=test mocha --compilers js:babel-register --recursive --require ./test/setup.js",
         "test:watch": "npm test -- --watch",
         "test:cov": "cross-env NODE_ENV=test nyc npm test",
         "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
