@@ -50,7 +50,7 @@ export const fetcher = (
                     fetch(this.props.endpoint, {
                         method: method,
                         headers: this.props.requestHeader,
-                        body: method !== "GET" && JSON.stringify({ filter: requestBody })
+                        body: method !== "GET" && JSON.stringify(requestBody)
                     })
                         .then(x => res(x))
                         .catch(e => rej(e))
