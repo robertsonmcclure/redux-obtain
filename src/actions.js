@@ -21,10 +21,11 @@ export const fetchSuccess = (name, data, acceptResponse) => ({
     acceptResponse
 })
 
-export const fetchAdditionalSuccess = (name, data) => ({
+export const fetchAdditionalSuccess = (name, data, acceptResponse) => ({
     type: C.FETCH_ADDITIONAL_SUCCESS,
     name,
-    data
+    data,
+    acceptResponse
 })
 
 export const fetchError = (name, error) => ({ type: C.FETCH_ERROR, name, error })

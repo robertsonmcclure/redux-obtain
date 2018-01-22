@@ -36,21 +36,25 @@ export const reducer = createReducer(C.initialState, {
             error: false
         }
     }),
-    [C.FETCH_ADDITIONAL_SUCCESS]: (state, action) => ({
-        ...state,
-        [action.name]: {
-            ...state[action.name],
-            data: {
-                ...action.data,
-                [state[action.name].paginationKey]: state[action.name].paginationKey && [
-                    ...state[action.name].data[state[action.name].paginationKey],
-                    ...action.data[state[action.name].paginationKey]
-                ]
-            },
-            loading: false,
-            error: false
+    [C.FETCH_ADDITIONAL_SUCCESS]: (state, action) => {
+        const paginationKey = state[action.name].paginationKey
+        const newData = action.acceptResponse ? action.acceptResponse(action.data) : action.data
+        return {
+            ...state,
+            [action.name]: {
+                ...state[action.name],
+                data: {
+                    ...newData,
+                    [paginationKey]: paginationKey && [
+                        ...state[action.name].data[paginationKey],
+                        ...action.data[paginationKey]
+                    ]
+                },
+                loading: false,
+                error: false
+            }
         }
-    }),
+    },
     [C.FETCH_ERROR]: (state, action) => ({
         ...state,
         [action.name]: {

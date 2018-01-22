@@ -15,7 +15,15 @@ const getOrderBys = ({ sortBy, sortDirection }) =>
     sortBy.map((column, index) => ({ column, direction: sortDirection[index] }))
 
 export const paginatedFetcher = (
-    { name, endpoint, defaultOrderBys, persistResource, requestBodySelector, paginationKey },
+    {
+        name,
+        endpoint,
+        acceptResponse,
+        defaultOrderBys,
+        persistResource,
+        requestBodySelector,
+        paginationKey
+    },
     extraActions
 ) => WrappedComponent =>
     connect(
@@ -77,22 +85,23 @@ export const paginatedFetcher = (
                 )
                     .then(res => {
                         if (res.status === 200) {
-                            return res.json()
+                            return res
+                                .json()
+                                .then(
+                                    data =>
+                                        firstLoad
+                                            ? this.props.fetchSuccess(name, data, acceptResponse)
+                                            : this.props.fetchAdditionalSuccess(
+                                                  name,
+                                                  data,
+                                                  acceptResponse
+                                              )
+                                )
                         } else {
-                            res.text()
-                            throw new Error(`Web Service responded with ${res.status}`)
+                            return res.text().then(error => this.props.fetchError(name, error))
                         }
                     })
-                    .then(
-                        data =>
-                            firstLoad
-                                ? this.props.fetchSuccess(name, data)
-                                : this.props.fetchAdditionalSuccess(name, data)
-                    )
-                    .catch(error => {
-                        console.log(error)
-                        return this.props.fetchError(name, error)
-                    })
+                    .catch(e => console.error(e))
                 return this.networkRequest
             }
             loadMoreRows = (indices, ui) => {
