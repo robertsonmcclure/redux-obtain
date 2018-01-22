@@ -1,50 +1,25 @@
+import React, { Component } from "react"
+import { connect } from "react-redux"
 import * as actions from "./actions"
 import * as C from "./constants"
 import { config } from "./config"
-const React = require("react")
-const { Component } = React
-const { connect } = require("react-redux")
-const Promise = require("bluebird")
-const _ = require("lodash")
-const INITIAL_LOAD_LIMIT = 100
-const getDisplayName = require("react-display-name")
+import Promise from "bluebird"
+import _ from "lodash"
+import getDisplayName from "react-display-name"
 
 Promise.config({ cancellation: true })
 
-const getOrderBys = ({ sortBy, sortDirection }: any) =>
+const getOrderBys = ({ sortBy, sortDirection }) =>
     sortBy &&
     sortDirection &&
-    sortBy.map((column: any, index: any) => ({ column, direction: sortDirection[index] }))
-
-interface OrderBys {
-    sortBy: string[]
-    sortDirection: string[]
-}
-
-interface PaginatedFetcher {
-    name: string
-    endpoint: string | Function
-    method: "GET" | "POST" | "PUT" | "DELETE"
-    acceptResponse?: Function
-    persistResource?: boolean
-    requestBodySelector?: Function
-    defaultOrderBys: OrderBys
-    paginationKey: string
-}
+    sortBy.map((column, index) => ({ column, direction: sortDirection[index] }))
 
 export const paginatedFetcher = (
-    {
-        name,
-        endpoint,
-        defaultOrderBys,
-        persistResource,
-        requestBodySelector,
-        paginationKey
-    }: PaginatedFetcher,
-    extraActions: any
-) => (WrappedComponent: any) =>
+    { name, endpoint, defaultOrderBys, persistResource, requestBodySelector, paginationKey },
+    extraActions
+) => WrappedComponent =>
     connect(
-        (state: any, ownProps: any) => ({
+        (state, ownProps) => ({
             endpoint: typeof endpoint === "function" ? endpoint(state, ownProps) : endpoint,
             requestHeader: config.requestHeaderSelector(state),
             resource: state[config.reduxStoreName][name],
@@ -56,13 +31,13 @@ export const paginatedFetcher = (
         }
     )(
         class PaginatedFetcher extends Component {
-            static displayName = `PaginatedFetcher(${getDisplayName.default(WrappedComponent)})`
+            static displayName = `PaginatedFetcher(${getDisplayName(WrappedComponent)})`
             componentWillMount() {
                 this.props.addResource(name, paginationKey)
             }
             componentDidMount() {
                 this.sendNetworkRequest({
-                    limit: INITIAL_LOAD_LIMIT,
+                    limit: config.paginationInitialLoadLimit,
                     offset: 0,
                     orderBys: getOrderBys(defaultOrderBys),
                     firstLoad: true,
@@ -73,10 +48,10 @@ export const paginatedFetcher = (
                 this.networkRequest && this.networkRequest.cancel()
                 !persistResource && this.props.removeResource(name)
             }
-            componentWillReceiveProps(nextProps: any) {
+            componentWillReceiveProps(nextProps) {
                 if (!_.isEqual(this.props.requestBody, nextProps.requestBody)) {
                     this.sendNetworkRequest({
-                        limit: INITIAL_LOAD_LIMIT,
+                        limit: config.paginationInitialLoadLimit,
                         offset: 0,
                         orderBys: getOrderBys(defaultOrderBys),
                         firstLoad: true,
@@ -84,9 +59,9 @@ export const paginatedFetcher = (
                     })
                 }
             }
-            sendNetworkRequest = ({ limit, offset, orderBys, firstLoad, requestBody }: any) => {
+            sendNetworkRequest = ({ limit, offset, orderBys, firstLoad, requestBody }) => {
                 firstLoad && this.props.requestResource(name)
-                this.networkRequest = new Promise((res: any, rej: any) =>
+                this.networkRequest = new Promise((res, rej) =>
                     fetch(this.props.endpoint, {
                         method: "POST",
                         headers: this.props.requestHeader,
@@ -100,7 +75,7 @@ export const paginatedFetcher = (
                         .then(x => res(x))
                         .catch(e => rej(e))
                 )
-                    .then((res: any) => {
+                    .then(res => {
                         if (res.status === 200) {
                             return res.json()
                         } else {
@@ -109,18 +84,18 @@ export const paginatedFetcher = (
                         }
                     })
                     .then(
-                        (data: any) =>
+                        data =>
                             firstLoad
                                 ? this.props.fetchSuccess(name, data)
                                 : this.props.fetchAdditionalSuccess(name, data)
                     )
-                    .catch((error: any) => {
+                    .catch(error => {
                         console.log(error)
                         return this.props.fetchError(name, error)
                     })
                 return this.networkRequest
             }
-            loadMoreRows = (indices: any, ui: any) => {
+            loadMoreRows = (indices, ui) => {
                 const { startIndex, stopIndex } = indices
                 return this.sendNetworkRequest({
                     limit: stopIndex - startIndex,
@@ -130,9 +105,9 @@ export const paginatedFetcher = (
                     firstLoad: false
                 })
             }
-            loadInitialRows = (props: any) => {
+            loadInitialRows = props => {
                 return this.sendNetworkRequest({
-                    limit: INITIAL_LOAD_LIMIT,
+                    limit: config.paginationInitialLoadLimit,
                     offset: 0,
                     orderBys: getOrderBys(props),
                     requestBody: this.props.requestBody,

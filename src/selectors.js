@@ -1,6 +1,6 @@
 import { config } from "./config"
 
-export const getResourceData = (name: string, selector: any) => (state: any) =>
+export const getResourceData = (name, selector) => state =>
     state[config.reduxStoreName][name]
         ? selector
           ? selector(state[config.reduxStoreName][name].data)

@@ -1,12 +1,13 @@
 export let config = {
-    requestHeaderSelector: (state: any) => ({
+    requestHeaderSelector: state => ({
         "Content-Type": "application/json",
         Authorization: `Basic ${state.authentication.token}`
     }),
-    reduxStoreName: "resources"
+    reduxStoreName: "resources",
+    paginationInitialLoadLimit: 100
 }
 
-export const setupFetcher = (options: any) => {
+export const setupFetcher = options => {
     config = {
         ...config,
         ...options

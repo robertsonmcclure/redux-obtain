@@ -1,24 +1,24 @@
 import * as C from "./constants"
 
-const createReducer = (initialState: any, handlers: any) => (state = initialState, action: any) =>
+const createReducer = (initialState, handlers) => (state = initialState, action) =>
     handlers.hasOwnProperty(action.type) ? handlers[action.type](state, action) : state
 
 export const reducer = createReducer(C.initialState, {
-    [C.ADD_RESOURCE]: (state: any, action: any) => ({
+    [C.ADD_RESOURCE]: (state, action) => ({
         ...state,
         [action.name]: {
             ...C.initialResourceState,
             paginationKey: action.paginationKey
         }
     }),
-    [C.MODIFY_RESOURCE]: (state: any, action: any) => ({
+    [C.MODIFY_RESOURCE]: (state, action) => ({
         ...state,
         [action.name]: state[action.name] && {
             ...state[action.name],
             data: action.dataTransform(state[action.name] && state[action.name].data)
         }
     }),
-    [C.REQUEST_RESOURCE]: (state: any, action: any) => ({
+    [C.REQUEST_RESOURCE]: (state, action) => ({
         ...state,
         [action.name]: {
             ...state[action.name],
@@ -27,7 +27,7 @@ export const reducer = createReducer(C.initialState, {
             error: false
         }
     }),
-    [C.FETCH_SUCCESS]: (state: any, action: any) => ({
+    [C.FETCH_SUCCESS]: (state, action) => ({
         ...state,
         [action.name]: {
             ...state[action.name],
@@ -36,7 +36,7 @@ export const reducer = createReducer(C.initialState, {
             error: false
         }
     }),
-    [C.FETCH_ADDITIONAL_SUCCESS]: (state: any, action: any) => ({
+    [C.FETCH_ADDITIONAL_SUCCESS]: (state, action) => ({
         ...state,
         [action.name]: {
             ...state[action.name],
@@ -51,7 +51,7 @@ export const reducer = createReducer(C.initialState, {
             error: false
         }
     }),
-    [C.FETCH_ERROR]: (state: any, action: any) => ({
+    [C.FETCH_ERROR]: (state, action) => ({
         ...state,
         [action.name]: {
             ...state[action.name],
@@ -60,7 +60,7 @@ export const reducer = createReducer(C.initialState, {
             error: true
         }
     }),
-    [C.REMOVE_RESOURCE]: (state: any, action: any) => ({
+    [C.REMOVE_RESOURCE]: (state, action) => ({
         ...state,
         [action.name]: undefined
     })

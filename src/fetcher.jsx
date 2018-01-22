@@ -1,30 +1,20 @@
+import React, { Component } from "react"
+import { connect } from "react-redux"
 import * as actions from "./actions"
 import * as C from "./constants"
 import { config } from "./config"
-const React = require("react")
-const { Component } = React
-const { connect } = require("react-redux")
-const Promise = require("bluebird")
-const _ = require("lodash")
-const getDisplayName = require("react-display-name")
+import Promise from "bluebird"
+import _ from "lodash"
+import getDisplayName from "react-display-name"
 
 Promise.config({ cancellation: true })
 
-interface Fetcher {
-    name: string
-    endpoint: string | Function
-    method: "GET" | "POST" | "PUT" | "DELETE"
-    acceptResponse?: Function
-    persistResource?: boolean
-    requestBodySelector?: Function
-}
-
 export const fetcher = (
-    { name, endpoint, method, acceptResponse, persistResource, requestBodySelector }: Fetcher,
-    extraActions: any
-) => (WrappedComponent: any) =>
+    { name, endpoint, method, acceptResponse, persistResource, requestBodySelector },
+    extraActions
+) => WrappedComponent =>
     connect(
-        (state: any, ownProps: any) => ({
+        (state, ownProps) => ({
             endpoint: typeof endpoint === "function" ? endpoint(state, ownProps) : endpoint,
             requestHeader: config.requestHeaderSelector(state),
             resource: state[config.reduxStoreName][name],
@@ -36,7 +26,7 @@ export const fetcher = (
         }
     )(
         class Fetcher extends Component {
-            static displayName = `Fetcher(${getDisplayName.default(WrappedComponent)})`
+            static displayName = `Fetcher(${getDisplayName(WrappedComponent)})`
             componentWillMount() {
                 this.props.addResource(name)
             }
@@ -47,16 +37,16 @@ export const fetcher = (
                 this.networkRequest && this.networkRequest.cancel()
                 !persistResource && this.props.removeResource(name)
             }
-            componentWillReceiveProps(nextProps: any) {
+            componentWillReceiveProps(nextProps) {
                 if (!_.isEqual(this.props.requestBody, nextProps.requestBody)) {
                     this.sendNetworkRequest({
                         requestBody: nextProps.requestBody
                     })
                 }
             }
-            sendNetworkRequest = ({ requestBody }: any) => {
+            sendNetworkRequest = ({ requestBody }) => {
                 this.props.requestResource(name)
-                this.networkRequest = new Promise((res: any, rej: any) =>
+                this.networkRequest = new Promise((res, rej) =>
                     fetch(this.props.endpoint, {
                         method: method,
                         headers: this.props.requestHeader,
@@ -65,20 +55,16 @@ export const fetcher = (
                         .then(x => res(x))
                         .catch(e => rej(e))
                 )
-                    .then((res: any) => {
+                    .then(res => {
                         if (res.status === 200) {
                             return res
                                 .json()
-                                .then((data: any) =>
-                                    this.props.fetchSuccess(name, data, acceptResponse)
-                                )
+                                .then(data => this.props.fetchSuccess(name, data, acceptResponse))
                         } else {
-                            return res
-                                .text()
-                                .then((error: any) => this.props.fetchError(name, error))
+                            return res.text().then(error => this.props.fetchError(name, error))
                         }
                     })
-                    .catch((e: any) => console.error(e))
+                    .catch(e => console.error(e))
                 return this.networkRequest
             }
             render() {
