@@ -29,9 +29,7 @@
     },
     "nyc": {
         "all": true,
-        "sourceMap": false,
-        "instrument": false,
-        "require": ["babel-register"]
+        "include": ["src/**/*.js"]
     },
     "devDependencies": {
         "babel-cli": "^6.3.17",
