@@ -8,35 +8,27 @@
         "type": "git",
         "url": "https://github.com/robertsonmcclure/redux-obtain.git"
     },
-    "keywords": [
-        "react",
-        "reactjs",
-        "redux"
-    ],
+    "keywords": ["react", "reactjs", "redux"],
     "license": "MIT",
     "scripts": {
         "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
         "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
-        "build:umd": "cross-env BABEL_ENV=rollup NODE_ENV=development rollup -c -o dist/react-redux.js",
-        "build:umd:min": "cross-env BABEL_ENV=rollup NODE_ENV=production rollup -c -o dist/react-redux.min.js",
+        "build:umd":
+            "cross-env BABEL_ENV=rollup NODE_ENV=development rollup -c -o dist/react-redux.js",
+        "build:umd:min":
+            "cross-env BABEL_ENV=rollup NODE_ENV=production rollup -c -o dist/react-redux.min.js",
         "build": "npm run build:commonjs",
         "clean": "rimraf lib dist es coverage",
         "lint": "eslint src test",
         "prepare": "npm run clean && npm run build",
-        "test": "cross-env BABEL_ENV=commonjs NODE_ENV=test mocha --compilers js:babel-register --recursive --require ./test/setup.js --reporter spec",
+        "test": "cross-env BABEL_ENV=commonjs NODE_ENV=test jest --env=jsdom",
         "test:watch": "npm test -- --watch",
-        "test:cov": "cross-env NODE_ENV=test nyc npm test",
-        "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
+        "coverage": "npm test -- --coverage && codecov"
     },
-    "nyc": {
-        "all": true,
-        "include": [
-            "src/**"
-        ],
-        "extension": [
-            ".jsx",
-            ".js"
-        ]
+    "jest": {
+        "coverageDirectory": "./coverage/",
+        "collectCoverage": true,
+        "collectCoverageFrom": ["src/**/*.{js,jsx}"]
     },
     "devDependencies": {
         "babel-cli": "^6.3.17",
@@ -80,6 +72,7 @@
         "expect": "^1.8.0",
         "glob": "^7.1.1",
         "istanbul": "^0.4.4",
+        "jest": "^22.1.4",
         "jsdom": "^11.0.0",
         "mocha": "^3.2.0",
         "nyc": "^11.0.2",
