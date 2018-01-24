@@ -10,15 +10,15 @@ import { reducer as resourceReducer } from "redux-obtain"
 
 const rootReducer = combineReducers({
     // ...your other reducers here
-    // you have to pass formReducer under 'form' key,
-    // for custom keys look up the docs for Configuring reduxStoreName
+    // you have to pass formReducer under 'resources' key,
+    // for custom keys look up the docs for configuring redux-obtain
     resources: resourceReducer
 })
 
 const store = createStore(rootReducer)
 ```
 
-_NOTE_: The key used to pass the redux-obtain reducer should be named `resources`. If you need a custom key for some reason see [Configuring reduxStoreName]() for details.
+_NOTE_: The key used to pass the redux-obtain reducer should be named `resources`. If you need a custom key for some reason see [Configuring reduxStoreName](docs/configuration.md#Redux Store Name) for details.
 
 ## Step 2
 
@@ -30,6 +30,7 @@ import { fetcher } from "redux-obtain"
 import TodoList from "./TodoList"
 
 const TodoListContainer = fetcher({
+    name: "TODOS",
     method: "GET",
     endpoint: "/todos"
 })(TodoList)
