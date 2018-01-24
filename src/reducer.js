@@ -11,31 +11,47 @@ export const reducer = createReducer(C.initialState, {
             paginationKey: action.paginationKey
         }
     }),
-    [C.MODIFY_RESOURCE]: (state, action) => ({
-        ...state,
-        [action.name]: state[action.name] && {
-            ...state[action.name],
-            data: action.dataTransform(state[action.name] && state[action.name].data)
-        }
-    }),
-    [C.REQUEST_RESOURCE]: (state, action) => ({
-        ...state,
-        [action.name]: {
-            ...state[action.name],
-            loading: true,
-            error: false
-        }
-    }),
-    [C.FETCH_SUCCESS]: (state, action) => ({
-        ...state,
-        [action.name]: {
-            ...state[action.name],
-            data: action.acceptResponse ? action.acceptResponse(action.data) : action.data,
-            loading: false,
-            error: false
-        }
-    }),
+    [C.MODIFY_RESOURCE]: (state, action) =>
+        state[action.name]
+            ? {
+                  ...state,
+                  [action.name]: {
+                      ...state[action.name],
+                      data: action.dataTransform
+                          ? action.dataTransform(state[action.name].data)
+                          : state[action.name].data
+                  }
+              }
+            : state,
+    [C.REQUEST_RESOURCE]: (state, action) =>
+        state[action.name]
+            ? {
+                  ...state,
+                  [action.name]: {
+                      ...state[action.name],
+                      loading: true,
+                      error: false
+                  }
+              }
+            : state,
+    [C.FETCH_SUCCESS]: (state, action) =>
+        state[action.name]
+            ? {
+                  ...state,
+                  [action.name]: {
+                      ...state[action.name],
+                      data: action.acceptResponse
+                          ? action.acceptResponse(action.data)
+                          : action.data,
+                      loading: false,
+                      error: false
+                  }
+              }
+            : state,
     [C.FETCH_ADDITIONAL_SUCCESS]: (state, action) => {
+        if (!state[action.name]) {
+            return state
+        }
         const paginationKey = state[action.name].paginationKey
         const newData = action.acceptResponse ? action.acceptResponse(action.data) : action.data
         return {
@@ -46,7 +62,7 @@ export const reducer = createReducer(C.initialState, {
                     ...newData,
                     [paginationKey]: paginationKey && [
                         ...state[action.name].data[paginationKey],
-                        ...action.data[paginationKey]
+                        ...newData[paginationKey]
                     ]
                 },
                 loading: false,
@@ -54,17 +70,21 @@ export const reducer = createReducer(C.initialState, {
             }
         }
     },
-    [C.FETCH_ERROR]: (state, action) => ({
-        ...state,
-        [action.name]: {
-            ...state[action.name],
-            data: {},
-            loading: false,
-            error: true
-        }
-    }),
-    [C.REMOVE_RESOURCE]: (state, action) => ({
-        ...state,
-        [action.name]: undefined
-    })
+    [C.FETCH_ERROR]: (state, action) =>
+        state[action.name]
+            ? {
+                  ...state,
+                  [action.name]: {
+                      ...state[action.name],
+                      data: {},
+                      loading: false,
+                      error: true
+                  }
+              }
+            : state,
+    [C.REMOVE_RESOURCE]: (state, action) => {
+        const newState = { ...state }
+        delete newState[action.name]
+        return newState
+    }
 })
