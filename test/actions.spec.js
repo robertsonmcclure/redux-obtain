@@ -1,4 +1,3 @@
-import expect from "expect"
 import * as actions from "../src/actions"
 import * as C from "../src/constants"
 

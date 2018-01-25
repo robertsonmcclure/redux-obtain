@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Fetcher should dispatch unmount action on unmount 1`] = `
+Array [
+  Object {
+    "name": "NAME",
+    "paginationKey": undefined,
+    "type": "@@fetcher/ADD_RESOURCE",
+  },
+  Object {
+    "name": "NAME",
+    "type": "@@fetcher/REQUEST_RESOURCE",
+  },
+  Object {
+    "name": "NAME",
+    "type": "@@fetcher/REMOVE_RESOURCE",
+  },
+]
+`;
+
+exports[`Fetcher should mount, call fetch and dispatch actions 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(Fetcher(Unknown))>
+    <Fetcher(Unknown)
+      addResource={[Function]}
+      endpoint="/api/endpoint"
+      fetchAdditionalSuccess={[Function]}
+      fetchError={[Function]}
+      fetchSuccess={[Function]}
+      modifyResource={[Function]}
+      removeResource={[Function]}
+      requestHeader={
+        Object {
+          "Authorization": "Basic dummy_token",
+          "Content-Type": "application/json",
+        }
+      }
+      requestResource={[Function]}
+    >
+      <div />
+    </Fetcher(Unknown)>
+  </Connect(Fetcher(Unknown))>
+</Provider>
+`;
+
+exports[`Fetcher should mount, call fetch and dispatch actions 2`] = `
+Array [
+  Object {
+    "name": "NAME",
+    "paginationKey": undefined,
+    "type": "@@fetcher/ADD_RESOURCE",
+  },
+  Object {
+    "name": "NAME",
+    "type": "@@fetcher/REQUEST_RESOURCE",
+  },
+]
+`;

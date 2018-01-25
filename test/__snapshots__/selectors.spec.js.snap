@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Selectors getMetaData should select the correct data 1`] = `
+Object {
+  "error": false,
+  "loading": true,
+}
+`;
+
+exports[`Selectors getMetaData should select the correct data 2`] = `
+Object {
+  "error": true,
+  "loading": false,
+}
+`;
+
+exports[`Selectors getResourceData should apply secondary selector 1`] = `"Hello world!"`;
+
+exports[`Selectors getResourceData should do nothing if resource does not exist 1`] = `undefined`;
+
+exports[`Selectors getResourceData should select the correct data 1`] = `
+Array [
+  1,
+  2,
+  3,
+  4,
+  5,
+]
+`;

@@ -1,0 +1,235 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Reducer Add Resource should add a multiple resources 1`] = `
+Object {
+  "first_resource_name": Object {
+    "data": Object {},
+    "error": false,
+    "loading": false,
+    "paginationKey": undefined,
+  },
+  "second_resource_name": Object {
+    "data": Object {},
+    "error": false,
+    "loading": false,
+    "paginationKey": undefined,
+  },
+}
+`;
+
+exports[`Reducer Add Resource should add a pagination key 1`] = `
+Object {
+  "paginated_resource": Object {
+    "data": Object {},
+    "error": false,
+    "loading": false,
+    "paginationKey": "name_of_attribute_to_be_paginated_on",
+  },
+}
+`;
+
+exports[`Reducer Add Resource should add a resource 1`] = `
+Object {
+  "new_resource": Object {
+    "data": Object {},
+    "error": false,
+    "loading": false,
+    "paginationKey": undefined,
+  },
+}
+`;
+
+exports[`Reducer Fetch Additional Success should append new data onto paginationKey 1`] = `
+Object {
+  "resource name": Object {
+    "data": Object {
+      "pagination key": Array [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+      ],
+    },
+    "error": false,
+    "loading": false,
+    "paginationKey": "pagination key",
+  },
+}
+`;
+
+exports[`Reducer Fetch Additional Success should apply accept response to new data 1`] = `
+Object {
+  "resource name": Object {
+    "data": Object {
+      "pagination key": Array [
+        1,
+        2,
+        3,
+        4,
+        10,
+        12,
+        14,
+        16,
+      ],
+      "plus": "extra",
+    },
+    "error": false,
+    "loading": false,
+    "paginationKey": "pagination key",
+  },
+}
+`;
+
+exports[`Reducer Fetch Additional Success should do nothing if the resource does not exist 1`] = `Object {}`;
+
+exports[`Reducer Fetch Additional Success should set the flags correctly 1`] = `
+Object {
+  "eh whatever": Object {
+    "data": Object {
+      "pKey": Array [
+        1,
+        2,
+        3,
+      ],
+    },
+    "error": false,
+    "loading": false,
+    "paginationKey": "pKey",
+  },
+}
+`;
+
+exports[`Reducer Fetch Error should do nothing if resource does not exist 1`] = `Object {}`;
+
+exports[`Reducer Fetch Error should set flags and clear data 1`] = `
+Object {
+  "unfortunate resource": Object {
+    "data": Object {},
+    "error": true,
+    "loading": false,
+    "paginationKey": undefined,
+  },
+}
+`;
+
+exports[`Reducer Fetch Success should apply acceptResponse to data 1`] = `
+Object {
+  "list": Array [
+    1,
+    2,
+    3,
+    4,
+    5,
+    66,
+  ],
+  "object": Object {
+    "foo": "baz",
+  },
+}
+`;
+
+exports[`Reducer Fetch Success should do nothing if the resource doesn't exist 1`] = `Object {}`;
+
+exports[`Reducer Fetch Success should set data without dataTransform 1`] = `
+Object {
+  "resource name": Object {
+    "data": Object {
+      "complicated": Object {
+        "nested": Array [
+          "structure",
+          "and",
+          "a",
+          "half",
+        ],
+      },
+      "list": Array [
+        1,
+        2,
+        3,
+        4,
+      ],
+    },
+    "error": false,
+    "loading": false,
+    "paginationKey": undefined,
+  },
+}
+`;
+
+exports[`Reducer Fetch Success should set the flags correctly 1`] = `
+Object {
+  "resource name": Object {
+    "data": Object {
+      "list": Array [
+        1,
+        2,
+        3,
+        4,
+      ],
+    },
+    "error": false,
+    "loading": false,
+    "paginationKey": undefined,
+  },
+}
+`;
+
+exports[`Reducer Modify Resource should apply dataTransform 1`] = `
+Object {
+  "whatever": Object {
+    "data": Object {
+      "newKey": "newValue",
+    },
+    "error": false,
+    "loading": false,
+    "paginationKey": undefined,
+  },
+}
+`;
+
+exports[`Reducer Modify Resource should do nothing if no dataTransform is given 1`] = `
+Object {
+  "whatever": Object {
+    "data": Object {},
+    "error": false,
+    "loading": false,
+    "paginationKey": undefined,
+  },
+}
+`;
+
+exports[`Reducer Modify Resource should do nothing if resource does not exist 1`] = `Object {}`;
+
+exports[`Reducer Remove Resource should do nothing if resource does not exist 1`] = `Object {}`;
+
+exports[`Reducer Remove Resource should remove the correct resource 1`] = `
+Object {
+  "resource_1": Object {
+    "data": Object {},
+    "error": false,
+    "loading": false,
+    "paginationKey": undefined,
+  },
+}
+`;
+
+exports[`Reducer Remove Resource should remove the correct resource 2`] = `Object {}`;
+
+exports[`Reducer Request Resource should do nothing if the resource does not exist 1`] = `Object {}`;
+
+exports[`Reducer Request Resource should set flags on request 1`] = `
+Object {
+  "random name": Object {
+    "data": Object {},
+    "error": false,
+    "loading": true,
+    "paginationKey": undefined,
+  },
+}
+`;
+
+exports[`Reducer init should return initial state 1`] = `Object {}`;

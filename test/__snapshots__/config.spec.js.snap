@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Configuration should have a default value 1`] = `
+Object {
+  "paginationInitialLoadLimit": 100,
+  "reduxStoreName": "resources",
+  "requestHeaderSelector": [Function],
+}
+`;
+
+exports[`Configuration should have a default value 2`] = `
+Object {
+  "Authorization": "Basic token",
+  "Content-Type": "application/json",
+}
+`;
+
+exports[`Configuration should set the configuration 1`] = `
+Object {
+  "paginationInitialLoadLimit": 100,
+  "reduxStoreName": "resources",
+  "requestHeaderSelector": [Function],
+}
+`;
+
+exports[`Configuration should set the configuration 2`] = `
+Object {
+  "paginationInitialLoadLimit": 100,
+  "reduxStoreName": "new_store_name",
+  "requestHeaderSelector": [Function],
+}
+`;

@@ -23,12 +23,14 @@
         "prepare": "npm run clean && npm run build",
         "test": "cross-env BABEL_ENV=commonjs NODE_ENV=test jest --env=jsdom",
         "test:watch": "npm test -- --watch",
-        "coverage": "npm test -- --coverage && codecov"
+        "coverage": "npm test -- --coverage && codecov",
+        "show:coverage": "open coverage/lcov-report/index.html"
     },
     "jest": {
         "coverageDirectory": "./coverage/",
         "collectCoverage": true,
-        "collectCoverageFrom": ["src/**/*.{js,jsx}"]
+        "collectCoverageFrom": ["src/**/*.{js,jsx}"],
+        "setupFiles": ["./test/setup.js"]
     },
     "devDependencies": {
         "babel-cli": "^6.3.17",
@@ -65,6 +67,9 @@
         "codecov": "^2.2.0",
         "create-react-class": "^15.5.3",
         "cross-env": "^5.0.1",
+        "enzyme": "^3.3.0",
+        "enzyme-adapter-react-15": "^1.0.5",
+        "enzyme-to-json": "^3.3.1",
         "es3ify": "^0.2.0",
         "eslint": "^4.0.0",
         "eslint-plugin-import": "^2.2.0",
@@ -73,10 +78,12 @@
         "glob": "^7.1.1",
         "istanbul": "^0.4.4",
         "jest": "^22.1.4",
+        "jest-fetch-mock": "^1.4.1",
         "jsdom": "^11.0.0",
         "mocha": "^3.2.0",
         "nyc": "^11.0.2",
-        "react-dom": "^15.5.4",
+        "react-dom": "^16.2.0",
+        "react-test-renderer": "^15.6.2",
         "redux-mock-store": "^1.4.0",
         "rimraf": "^2.3.4",
         "rollup": "^0.43.0",
@@ -88,6 +95,7 @@
     },
     "dependencies": {
         "bluebird": "^3.5.1",
+        "enzyme-adapter-react-16": "^1.1.1",
         "lodash": "^4.17.4",
         "react": "^16.2.0",
         "react-display-name": "^0.2.3",
