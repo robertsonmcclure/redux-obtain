@@ -138,7 +138,7 @@ export const fetcher = (
                     ? {
                           _loadMoreRows: this.loadMoreRows,
                           _loadInitialRows: this.loadInitialRows,
-                          totalSize: this.props.resource.data.totalCount
+                          totalSize: this.props.resource && this.props.resource.data.totalCount
                       }
                     : undefined
                 return this.props.resource ? (
