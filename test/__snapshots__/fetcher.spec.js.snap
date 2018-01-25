@@ -1,5 +1,148 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Fetcher should console.error other error 1`] = `
+Array [
+  Array [
+    Object {
+      "message": "Some Crazy Error",
+    },
+  ],
+]
+`;
+
+exports[`Fetcher should dispatch error 1`] = `
+Array [
+  Object {
+    "name": "NAME",
+    "paginationKey": undefined,
+    "type": "@@fetcher/ADD_RESOURCE",
+  },
+  Object {
+    "name": "NAME",
+    "type": "@@fetcher/REQUEST_RESOURCE",
+  },
+  Object {
+    "error": Object {
+      "server": "error",
+    },
+    "name": "NAME",
+    "type": "@@fetcher/FETCH_ERROR",
+  },
+]
+`;
+
+exports[`Fetcher should dispatch request on props change 1`] = `
+Array [
+  Array [
+    "/api/zero",
+    Object {
+      "body": false,
+      "headers": Object {
+        "Authorization": "Basic dummy_token",
+        "Content-Type": "application/json",
+      },
+      "method": "GET",
+    },
+  ],
+  Array [
+    "/api/zero",
+    Object {
+      "body": false,
+      "headers": Object {
+        "Authorization": "Basic dummy_token",
+        "Content-Type": "application/json",
+      },
+      "method": "GET",
+    },
+  ],
+]
+`;
+
+exports[`Fetcher should dispatch request on props change 2`] = `
+Array [
+  Object {
+    "name": "NAME",
+    "paginationKey": undefined,
+    "type": "@@fetcher/ADD_RESOURCE",
+  },
+  Object {
+    "name": "NAME",
+    "type": "@@fetcher/REQUEST_RESOURCE",
+  },
+  Object {
+    "name": "NAME",
+    "type": "@@fetcher/REQUEST_RESOURCE",
+  },
+]
+`;
+
+exports[`Fetcher should dispatch request on props change 3`] = `
+Array [
+  Array [
+    "/api/zero",
+    Object {
+      "body": false,
+      "headers": Object {
+        "Authorization": "Basic dummy_token",
+        "Content-Type": "application/json",
+      },
+      "method": "GET",
+    },
+  ],
+  Array [
+    "/api/zero",
+    Object {
+      "body": false,
+      "headers": Object {
+        "Authorization": "Basic dummy_token",
+        "Content-Type": "application/json",
+      },
+      "method": "GET",
+    },
+  ],
+]
+`;
+
+exports[`Fetcher should dispatch request on props change 4`] = `
+Array [
+  Object {
+    "name": "NAME",
+    "paginationKey": undefined,
+    "type": "@@fetcher/ADD_RESOURCE",
+  },
+  Object {
+    "name": "NAME",
+    "type": "@@fetcher/REQUEST_RESOURCE",
+  },
+  Object {
+    "name": "NAME",
+    "type": "@@fetcher/REQUEST_RESOURCE",
+  },
+]
+`;
+
+exports[`Fetcher should dispatch success 1`] = `
+Array [
+  Object {
+    "name": "NAME",
+    "paginationKey": undefined,
+    "type": "@@fetcher/ADD_RESOURCE",
+  },
+  Object {
+    "name": "NAME",
+    "type": "@@fetcher/REQUEST_RESOURCE",
+  },
+  Object {
+    "acceptResponse": undefined,
+    "data": Object {
+      "test": "this",
+    },
+    "name": "NAME",
+    "type": "@@fetcher/FETCH_SUCCESS",
+  },
+]
+`;
+
 exports[`Fetcher should dispatch unmount action on unmount 1`] = `
 Array [
   Object {
@@ -18,6 +161,22 @@ Array [
 ]
 `;
 
+exports[`Fetcher should dispatch unmount action on unmount 2`] = `
+Array [
+  Array [
+    "/api/endpoint",
+    Object {
+      "body": false,
+      "headers": Object {
+        "Authorization": "Basic dummy_token",
+        "Content-Type": "application/json",
+      },
+      "method": "GET",
+    },
+  ],
+]
+`;
+
 exports[`Fetcher should mount, call fetch and dispatch actions 1`] = `
 <Provider
   store={
@@ -31,7 +190,9 @@ exports[`Fetcher should mount, call fetch and dispatch actions 1`] = `
     }
   }
 >
-  <Connect(Fetcher(Unknown))>
+  <Connect(Fetcher(Unknown))
+    passthrough="attribute"
+  >
     <Fetcher(Unknown)
       addResource={[Function]}
       endpoint="/api/endpoint"
@@ -39,6 +200,7 @@ exports[`Fetcher should mount, call fetch and dispatch actions 1`] = `
       fetchError={[Function]}
       fetchSuccess={[Function]}
       modifyResource={[Function]}
+      passthrough="attribute"
       removeResource={[Function]}
       requestHeader={
         Object {
@@ -47,8 +209,22 @@ exports[`Fetcher should mount, call fetch and dispatch actions 1`] = `
         }
       }
       requestResource={[Function]}
+      resource={
+        Object {
+          "data": Object {},
+          "error": false,
+          "loading": false,
+        }
+      }
     >
-      <div />
+      <Component
+        data={Object {}}
+        error={false}
+        loading={false}
+        passthrough="attribute"
+      >
+        <div />
+      </Component>
     </Fetcher(Unknown)>
   </Connect(Fetcher(Unknown))>
 </Provider>
@@ -66,4 +242,59 @@ Array [
     "type": "@@fetcher/REQUEST_RESOURCE",
   },
 ]
+`;
+
+exports[`Fetcher should mount, call fetch and dispatch actions 3`] = `
+Array [
+  Array [
+    "/api/endpoint",
+    Object {
+      "body": false,
+      "headers": Object {
+        "Authorization": "Basic dummy_token",
+        "Content-Type": "application/json",
+      },
+      "method": "GET",
+    },
+  ],
+]
+`;
+
+exports[`Fetcher should render empty div if store gets messed with 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(Fetcher(Unknown))
+    passthrough="attribute"
+  >
+    <Fetcher(Unknown)
+      addResource={[Function]}
+      endpoint="/api/endpoint"
+      fetchAdditionalSuccess={[Function]}
+      fetchError={[Function]}
+      fetchSuccess={[Function]}
+      modifyResource={[Function]}
+      passthrough="attribute"
+      removeResource={[Function]}
+      requestHeader={
+        Object {
+          "Authorization": "Basic dummy_token",
+          "Content-Type": "application/json",
+        }
+      }
+      requestResource={[Function]}
+    >
+      <div />
+    </Fetcher(Unknown)>
+  </Connect(Fetcher(Unknown))>
+</Provider>
 `;

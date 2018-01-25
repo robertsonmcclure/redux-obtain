@@ -2,6 +2,7 @@
 
 exports[`Configuration should have a default value 1`] = `
 Object {
+  "getOrderBys": [Function],
   "paginationInitialLoadLimit": 100,
   "reduxStoreName": "resources",
   "requestHeaderSelector": [Function],
@@ -17,6 +18,7 @@ Object {
 
 exports[`Configuration should set the configuration 1`] = `
 Object {
+  "getOrderBys": [Function],
   "paginationInitialLoadLimit": 100,
   "reduxStoreName": "resources",
   "requestHeaderSelector": [Function],
@@ -25,6 +27,7 @@ Object {
 
 exports[`Configuration should set the configuration 2`] = `
 Object {
+  "getOrderBys": [Function],
   "paginationInitialLoadLimit": 100,
   "reduxStoreName": "new_store_name",
   "requestHeaderSelector": [Function],
