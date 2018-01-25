@@ -38,6 +38,7 @@ Then use a `fetcher` component to obtain some data
 
 ```javascript
 import React from "react"
+import { fetcher } from "redux-obtain"
 
 const TodoList = ({ data: { todos }, loading, error }) =>
     loading ? (
