@@ -11,7 +11,7 @@
 
 ```javascript
 import React from "react"
-import { paginatedFetcher } from "redux-obtain"
+import { fetcher } from "redux-obtain"
 
 const LongList = ({ data, loading, error, paginationFunctions }) => {
     if (loading) {
@@ -34,17 +34,13 @@ const LongList = ({ data, loading, error, paginationFunctions }) => {
     )
 }
 
-const LongListContainer = paginatedFetcher({
+const LongListContainer = fetcher({
     name: "LONG_LIST",
     // method: POST is not required because all paginated calls are POST requests
     endpoint: "/long_list",
-    paginationKey: "list", // this is the key subsequent calls will append their results to
+    paginationKey: "list", // IMPORTANT: the presence of this key is what enables pagination
     defaultOrderBys: []
 })
 
 export default LongListContainer
 ```
-
-## Responsive
-
-`paginatedFetcher` has the same responsive feature as `fetcher` as per [this documentation](docs/responsive.md).
