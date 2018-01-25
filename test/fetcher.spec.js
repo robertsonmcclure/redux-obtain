@@ -20,6 +20,12 @@ const initialStore = {
     stuff: { key: "zero" }
 }
 
+const wait = ms => {
+    return new Promise(resolve => {
+        setTimeout(resolve, ms)
+    })
+}
+
 describe("Fetcher", () => {
     beforeEach(() => {
         fetch.mockClear()
@@ -29,7 +35,7 @@ describe("Fetcher", () => {
                     resolve({
                         ok: true,
                         status: 200,
-                        json: () => new Promise((res, rej) => res({ test: "this" })),
+                        json: () => new Promise((res, rej) => res({ pKey: [1, 2, 3, 4] })),
                         text: () => new Promise((res, rej) => res({ what: "what" }))
                     })
                 })
@@ -147,10 +153,50 @@ describe("Fetcher", () => {
         await wait(1000)
         expect(console.error.mock.calls).toMatchSnapshot()
     })
-})
-
-const wait = ms => {
-    return new Promise(resolve => {
-        setTimeout(resolve, ms)
+    it("should use pagination", async () => {
+        const Container = fetcher({
+            name: "NAME",
+            endpoint: state => `/api/${state.stuff.key}`,
+            method: "POST",
+            paginationKey: "pKey"
+        })(() => <div />)
+        const store = mockStore(initialStore)
+        const wrapper = mount(<Container store={store} stuff={{ one: "two" }} />)
+        await wait(1000)
+        expect(fetch.mock.calls).toMatchSnapshot()
     })
-}
+    it("should use loadMoreRows", async () => {
+        const Container = fetcher({
+            name: "NAME",
+            endpoint: state => `/api/${state.stuff.key}`,
+            method: "POST",
+            paginationKey: "pKey"
+        })(() => <div />)
+        const store = mockStore(initialStore)
+        const wrapper = shallow(<Container store={store} stuff={{ one: "two" }} />)
+        await wait(1000)
+        wrapper
+            .dive()
+            .instance()
+            .loadMoreRows({ startIndex: 100, stopIndex: 250 })
+        expect(fetch.mock.calls).toMatchSnapshot()
+        await wait(1000)
+        expect(store.getActions()).toMatchSnapshot()
+    })
+    it("should use loadInitialRows with different orderBys", async () => {
+        const Container = fetcher({
+            name: "NAME",
+            endpoint: state => `/api/${state.stuff.key}`,
+            method: "POST",
+            paginationKey: "pKey"
+        })(() => <div />)
+        const store = mockStore(initialStore)
+        const wrapper = shallow(<Container store={store} stuff={{ one: "two" }} />)
+        await wait(1000)
+        wrapper
+            .dive()
+            .instance()
+            .loadInitialRows({ sortBy: ["columnKey"], sortDirection: ["ASC"] })
+        expect(fetch.mock.calls).toMatchSnapshot()
+    })
+})

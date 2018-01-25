@@ -135,7 +135,12 @@ Array [
   Object {
     "acceptResponse": undefined,
     "data": Object {
-      "test": "this",
+      "pKey": Array [
+        1,
+        2,
+        3,
+        4,
+      ],
     },
     "name": "NAME",
     "type": "@@fetcher/FETCH_SUCCESS",
@@ -297,4 +302,114 @@ exports[`Fetcher should render empty div if store gets messed with 1`] = `
     </Fetcher(Unknown)>
   </Connect(Fetcher(Unknown))>
 </Provider>
+`;
+
+exports[`Fetcher should use loadInitialRows with different orderBys 1`] = `
+Array [
+  Array [
+    "/api/zero",
+    Object {
+      "body": "{\\"limit\\":100,\\"offset\\":0,\\"orderBys\\":[]}",
+      "headers": Object {
+        "Authorization": "Basic dummy_token",
+        "Content-Type": "application/json",
+      },
+      "method": "POST",
+    },
+  ],
+  Array [
+    "/api/zero",
+    Object {
+      "body": "{\\"limit\\":100,\\"offset\\":0,\\"orderBys\\":[{\\"column\\":\\"columnKey\\",\\"direction\\":\\"ASC\\"}]}",
+      "headers": Object {
+        "Authorization": "Basic dummy_token",
+        "Content-Type": "application/json",
+      },
+      "method": "POST",
+    },
+  ],
+]
+`;
+
+exports[`Fetcher should use loadMoreRows 1`] = `
+Array [
+  Array [
+    "/api/zero",
+    Object {
+      "body": "{\\"limit\\":100,\\"offset\\":0,\\"orderBys\\":[]}",
+      "headers": Object {
+        "Authorization": "Basic dummy_token",
+        "Content-Type": "application/json",
+      },
+      "method": "POST",
+    },
+  ],
+  Array [
+    "/api/zero",
+    Object {
+      "body": "{\\"limit\\":150,\\"offset\\":100,\\"orderBys\\":[]}",
+      "headers": Object {
+        "Authorization": "Basic dummy_token",
+        "Content-Type": "application/json",
+      },
+      "method": "POST",
+    },
+  ],
+]
+`;
+
+exports[`Fetcher should use loadMoreRows 2`] = `
+Array [
+  Object {
+    "name": "NAME",
+    "paginationKey": "pKey",
+    "type": "@@fetcher/ADD_RESOURCE",
+  },
+  Object {
+    "name": "NAME",
+    "type": "@@fetcher/REQUEST_RESOURCE",
+  },
+  Object {
+    "acceptResponse": undefined,
+    "data": Object {
+      "pKey": Array [
+        1,
+        2,
+        3,
+        4,
+      ],
+    },
+    "name": "NAME",
+    "type": "@@fetcher/FETCH_SUCCESS",
+  },
+  Object {
+    "acceptResponse": undefined,
+    "data": Object {
+      "pKey": Array [
+        1,
+        2,
+        3,
+        4,
+      ],
+    },
+    "name": "NAME",
+    "type": "@@fetcher/FETCH_ADDITIONAL_SUCCESS",
+  },
+]
+`;
+
+exports[`Fetcher should use pagination 1`] = `
+Array [
+  Array [
+    "/api/zero",
+    Object {
+      "body": "{\\"limit\\":100,\\"offset\\":0,\\"orderBys\\":[]}",
+      "headers": Object {
+        "Authorization": "Basic dummy_token",
+        "Content-Type": "application/json",
+      },
+      "method": "POST",
+    },
+  ],
+]
 `;
