@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer)
 ```
 
-_NOTE_: The key used to pass the redux-obtain reducer should be named `resources`. If you need a custom key for some reason see [Configuring reduxStoreName](docs/configuration.md#Redux Store Name) for details.
+_NOTE_: The key used to pass the redux-obtain reducer should be named `resources`. If you need a custom key for some reason see [Configuring reduxStoreName](docs/configuration.md) for details.
 
 ## Step 2
 
