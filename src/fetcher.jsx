@@ -72,11 +72,12 @@ export const fetcher = (
                         method: requestMethod,
                         headers: this.props.requestHeader,
                         body:
-                            (method !== "GET" || !!paginationKey) &&
-                            JSON.stringify({
-                                ...requestBody,
-                                ...paginationBody
-                            })
+                            method !== "GET" || !!paginationKey
+                                ? JSON.stringify({
+                                      ...requestBody,
+                                      ...paginationBody
+                                  })
+                                : undefined
                     })
                         .then(x => res(x))
                         .catch(e => rej(e))
