@@ -65,7 +65,6 @@ It's as simple as that! `redux-obtain` will manage fetching/storing/removing all
 | `endpoint`            | YES      | String or Selector |                                   | The endpoint to call for the resource. A redux store selector can be used for a dynamic endpoint.                                           |
 | `method`              | YES      | http method        |                                   | Method to call endpoint                                                                                                                     |
 | `paginationKey`       | NO       | String             | undefined                         | If given, this enables [pagination](docs/pagination.md). The presence of this option overrides `method`, setting it to POST.                |
-|                       |
 | `requestBodySelector` | NO       | Selector           | `() => undefined`                 | Selects the request body from the redux store. Will trigger a Request for data if the result of the selector changes.                       |
 | `persistResource`     | NO       | Boolean            | `false`                           | If given, the resource will not remove itself from the store on unmount.                                                                    |
 | `defaultOrderBys`     | NO       | Object             | { sortBy: [], sortDirection: [] } | Used for paginated resources. This is the ordering that will be sent with the first request.                                                |
