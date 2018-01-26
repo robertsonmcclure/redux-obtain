@@ -11,9 +11,9 @@ Usage:
 ```javascript
 import { getResourceData } from "redux-obtain"
 
-export default connect(state => getResourceData("RESOURCE_NAME")(state))(({ data }) => (
-    <div>{/* do with it what you will */}</div>
-))
+export default connect(state => ({
+    comments: getResourceData("COMMENTS")(state)
+}))(({ comments }) => <div>{/* do with it what you will */}</div>)
 ```
 
 Advanced Usage:
@@ -23,7 +23,7 @@ The second argument is a selector function that gets applied to the `data` key i
 ```
 Redux Store: {
     resources: {
-        RESOURCE_NAME: {
+        CURRENT_USER: {
             data: {
                 firstName: 'Henry',
                 lastName: 'Williamson'
@@ -38,7 +38,7 @@ Redux Store: {
 ```javascript
 import { getResourceData } from "redux-obtain"
 
-export default connect(state =>
-    getResourceData("RESOURCE_NAME", data => `${data.firstName} ${data.lastName}`)(state)
-)(({ data }) => <span>{data /* Henry Williamson */}</span>)
+export default connect(state => ({
+    fullName: getResourceData("RESOURCE_NAME", data => `${data.firstName} ${data.lastName}`)(state)
+}))(({ fullName }) => <span>{fullName /* Henry Williamson */}</span>)
 ```
