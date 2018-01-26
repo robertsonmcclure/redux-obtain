@@ -126,7 +126,6 @@ export const fetcher = (
                 let pt = { ...this.props }
                 delete pt.endpoint
                 delete pt.addResource
-                delete pt.modifyResource
                 delete pt.requestResource
                 delete pt.fetchSuccess
                 delete pt.fetchAdditionalSuccess

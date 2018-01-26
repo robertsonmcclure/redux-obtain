@@ -226,6 +226,7 @@ exports[`Fetcher should mount, call fetch and dispatch actions 1`] = `
         data={Object {}}
         error={false}
         loading={false}
+        modifyResource={[Function]}
         passthrough="attribute"
       >
         <div />
