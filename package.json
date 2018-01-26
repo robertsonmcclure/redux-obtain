@@ -1,6 +1,6 @@
 {
     "name": "redux-obtain",
-    "version": "0.6.2",
+    "version": "0.6.3",
     "description": "An opinionated way to obtain data from a server",
     "main": "lib/index.js",
     "author": "Robertson McClure <ephipitau@gmail.com>",
