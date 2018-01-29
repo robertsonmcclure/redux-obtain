@@ -8,6 +8,7 @@ export const reducer = createReducer(C.initialState, {
         ...state,
         [action.name]: {
             ...C.initialResourceState,
+            ...state[action.name],
             paginationKey: action.paginationKey
         }
     }),
