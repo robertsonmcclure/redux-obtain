@@ -55,6 +55,7 @@ export const fetcher = (
             componentWillReceiveProps(nextProps) {
                 if (!_.isEqual(this.props.requestBody, nextProps.requestBody)) {
                     this.sendNetworkRequest({
+                        endpoint: nextProps.endpoint,
                         limit: config.paginationInitialLoadLimit,
                         offset: 0,
                         orderBys: config.getOrderBys(defaultOrderBys),
@@ -63,12 +64,19 @@ export const fetcher = (
                     })
                 }
             }
-            sendNetworkRequest = ({ limit, offset, orderBys, firstLoad, requestBody }) => {
+            sendNetworkRequest = ({
+                limit,
+                offset,
+                orderBys,
+                firstLoad,
+                requestBody,
+                endpoint
+            }) => {
                 firstLoad && this.props.requestResource(name)
                 const paginationBody = paginationKey ? { limit, offset, orderBys } : {}
                 const requestMethod = paginationKey ? "POST" : method
                 this.networkRequest = new Promise((res, rej) =>
-                    fetch(this.props.endpoint, {
+                    fetch(endpoint || this.props.endpoint, {
                         method: requestMethod,
                         headers: this.props.requestHeader,
                         body:
