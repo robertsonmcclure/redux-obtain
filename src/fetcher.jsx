@@ -79,6 +79,7 @@ export const fetcher = (
                     fetch(endpoint || this.props.endpoint, {
                         method: requestMethod,
                         headers: this.props.requestHeader,
+                        credentials: "include",
                         body:
                             method !== "GET" || !!paginationKey
                                 ? JSON.stringify({
