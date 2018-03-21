@@ -54,6 +54,7 @@ export const fetcher = (
             }
             componentWillReceiveProps(nextProps) {
                 if (!_.isEqual(this.props.requestBody, nextProps.requestBody)) {
+                    this.networkRequest && this.networkRequest.cancel()
                     this.sendNetworkRequest({
                         endpoint: nextProps.endpoint,
                         limit: config.paginationInitialLoadLimit,

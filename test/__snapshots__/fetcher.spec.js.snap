@@ -37,6 +37,7 @@ Array [
     "/api/zero",
     Object {
       "body": undefined,
+      "credentials": "include",
       "headers": Object {
         "Authorization": "Basic dummy_token",
         "Content-Type": "application/json",
@@ -48,6 +49,7 @@ Array [
     "/api/zero",
     Object {
       "body": undefined,
+      "credentials": "include",
       "headers": Object {
         "Authorization": "Basic dummy_token",
         "Content-Type": "application/json",
@@ -82,6 +84,7 @@ Array [
     "/api/zero",
     Object {
       "body": undefined,
+      "credentials": "include",
       "headers": Object {
         "Authorization": "Basic dummy_token",
         "Content-Type": "application/json",
@@ -93,6 +96,7 @@ Array [
     "/api/zero",
     Object {
       "body": undefined,
+      "credentials": "include",
       "headers": Object {
         "Authorization": "Basic dummy_token",
         "Content-Type": "application/json",
@@ -172,6 +176,7 @@ Array [
     "/api/endpoint",
     Object {
       "body": undefined,
+      "credentials": "include",
       "headers": Object {
         "Authorization": "Basic dummy_token",
         "Content-Type": "application/json",
@@ -256,6 +261,7 @@ Array [
     "/api/endpoint",
     Object {
       "body": undefined,
+      "credentials": "include",
       "headers": Object {
         "Authorization": "Basic dummy_token",
         "Content-Type": "application/json",
@@ -311,6 +317,7 @@ Array [
     "/api/zero",
     Object {
       "body": "{\\"limit\\":100,\\"offset\\":0,\\"orderBys\\":[]}",
+      "credentials": "include",
       "headers": Object {
         "Authorization": "Basic dummy_token",
         "Content-Type": "application/json",
@@ -322,6 +329,7 @@ Array [
     "/api/zero",
     Object {
       "body": "{\\"limit\\":100,\\"offset\\":0,\\"orderBys\\":[{\\"column\\":\\"columnKey\\",\\"direction\\":\\"ASC\\"}]}",
+      "credentials": "include",
       "headers": Object {
         "Authorization": "Basic dummy_token",
         "Content-Type": "application/json",
@@ -338,6 +346,7 @@ Array [
     "/api/zero",
     Object {
       "body": "{\\"limit\\":100,\\"offset\\":0,\\"orderBys\\":[]}",
+      "credentials": "include",
       "headers": Object {
         "Authorization": "Basic dummy_token",
         "Content-Type": "application/json",
@@ -349,6 +358,7 @@ Array [
     "/api/zero",
     Object {
       "body": "{\\"limit\\":150,\\"offset\\":100,\\"orderBys\\":[]}",
+      "credentials": "include",
       "headers": Object {
         "Authorization": "Basic dummy_token",
         "Content-Type": "application/json",
@@ -405,6 +415,7 @@ Array [
     "/api/zero",
     Object {
       "body": "{\\"limit\\":100,\\"offset\\":0,\\"orderBys\\":[]}",
+      "credentials": "include",
       "headers": Object {
         "Authorization": "Basic dummy_token",
         "Content-Type": "application/json",
