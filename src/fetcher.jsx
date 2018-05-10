@@ -6,6 +6,7 @@ import { config } from "./config"
 import Promise from "bluebird"
 import _ from "lodash"
 import getDisplayName from "react-display-name"
+import qs from "querystring"
 
 Promise.config({ cancellation: true })
 
@@ -53,7 +54,10 @@ export const fetcher = (
                 !persistResource && this.props.removeResource(name)
             }
             componentWillReceiveProps(nextProps) {
-                if (!_.isEqual(this.props.requestBody, nextProps.requestBody)) {
+                if (
+                    !_.isEqual(this.props.requestBody, nextProps.requestBody) ||
+                    !_.isEqual(this.props.endpoint, nextProps.endpoint)
+                ) {
                     this.networkRequest && this.networkRequest.cancel()
                     this.sendNetworkRequest({
                         endpoint: nextProps.endpoint,
@@ -75,20 +79,29 @@ export const fetcher = (
             }) => {
                 firstLoad && this.props.requestResource(name)
                 const paginationBody = paginationKey ? { limit, offset, orderBys } : {}
-                const requestMethod = paginationKey ? "POST" : method
+                const sort = orderBys.map(
+                    item => `${item.direction === "DESC" ? "-" : ""}${item.column}`
+                )
+                const paginationQuery = paginationKey ? qs.stringify({ limit, offset, sort }) : ""
+                const requestMethod = paginationKey ? "GET" : method
+                const requestEndpoint = endpoint || this.props.endpoint
                 this.networkRequest = new Promise((res, rej) =>
-                    fetch(endpoint || this.props.endpoint, {
-                        method: requestMethod,
-                        headers: this.props.requestHeader,
-                        credentials: "include",
-                        body:
-                            method !== "GET" || !!paginationKey
-                                ? JSON.stringify({
-                                      ...requestBody,
-                                      ...paginationBody
-                                  })
-                                : undefined
-                    })
+                    fetch(
+                        `${requestEndpoint}${
+                            requestEndpoint.indexOf("?") === -1 ? "?" : "&"
+                        }${paginationQuery}`,
+                        {
+                            method: requestMethod,
+                            headers: this.props.requestHeader,
+                            credentials: "include",
+                            body:
+                                requestMethod !== "GET"
+                                    ? JSON.stringify({
+                                          ...requestBody
+                                      })
+                                    : undefined
+                        }
+                    )
                         .then(x => res(x))
                         .catch(e => rej(e))
                 )

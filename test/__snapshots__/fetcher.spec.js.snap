@@ -34,7 +34,7 @@ Array [
 exports[`Fetcher should dispatch request on props change 1`] = `
 Array [
   Array [
-    "/api/zero",
+    "/api/zero?",
     Object {
       "body": undefined,
       "credentials": "include",
@@ -46,7 +46,7 @@ Array [
     },
   ],
   Array [
-    "/api/zero",
+    "/api/zero?",
     Object {
       "body": undefined,
       "credentials": "include",
@@ -81,7 +81,7 @@ Array [
 exports[`Fetcher should dispatch request on props change 3`] = `
 Array [
   Array [
-    "/api/zero",
+    "/api/zero?",
     Object {
       "body": undefined,
       "credentials": "include",
@@ -93,7 +93,7 @@ Array [
     },
   ],
   Array [
-    "/api/zero",
+    "/api/zero?",
     Object {
       "body": undefined,
       "credentials": "include",
@@ -173,7 +173,7 @@ Array [
 exports[`Fetcher should dispatch unmount action on unmount 2`] = `
 Array [
   Array [
-    "/api/endpoint",
+    "/api/endpoint?",
     Object {
       "body": undefined,
       "credentials": "include",
@@ -258,7 +258,7 @@ Array [
 exports[`Fetcher should mount, call fetch and dispatch actions 3`] = `
 Array [
   Array [
-    "/api/endpoint",
+    "/api/endpoint?",
     Object {
       "body": undefined,
       "credentials": "include",
@@ -314,27 +314,27 @@ exports[`Fetcher should render empty div if store gets messed with 1`] = `
 exports[`Fetcher should use loadInitialRows with different orderBys 1`] = `
 Array [
   Array [
-    "/api/zero",
+    "/api/zero?limit=500&offset=0&",
     Object {
-      "body": "{\\"limit\\":100,\\"offset\\":0,\\"orderBys\\":[]}",
+      "body": undefined,
       "credentials": "include",
       "headers": Object {
         "Authorization": "Basic dummy_token",
         "Content-Type": "application/json",
       },
-      "method": "POST",
+      "method": "GET",
     },
   ],
   Array [
-    "/api/zero",
+    "/api/zero?limit=500&offset=0&sort=columnKey",
     Object {
-      "body": "{\\"limit\\":100,\\"offset\\":0,\\"orderBys\\":[{\\"column\\":\\"columnKey\\",\\"direction\\":\\"ASC\\"}]}",
+      "body": undefined,
       "credentials": "include",
       "headers": Object {
         "Authorization": "Basic dummy_token",
         "Content-Type": "application/json",
       },
-      "method": "POST",
+      "method": "GET",
     },
   ],
 ]
@@ -343,27 +343,27 @@ Array [
 exports[`Fetcher should use loadMoreRows 1`] = `
 Array [
   Array [
-    "/api/zero",
+    "/api/zero?limit=500&offset=0&",
     Object {
-      "body": "{\\"limit\\":100,\\"offset\\":0,\\"orderBys\\":[]}",
+      "body": undefined,
       "credentials": "include",
       "headers": Object {
         "Authorization": "Basic dummy_token",
         "Content-Type": "application/json",
       },
-      "method": "POST",
+      "method": "GET",
     },
   ],
   Array [
-    "/api/zero",
+    "/api/zero?limit=150&offset=100&",
     Object {
-      "body": "{\\"limit\\":150,\\"offset\\":100,\\"orderBys\\":[]}",
+      "body": undefined,
       "credentials": "include",
       "headers": Object {
         "Authorization": "Basic dummy_token",
         "Content-Type": "application/json",
       },
-      "method": "POST",
+      "method": "GET",
     },
   ],
 ]
@@ -412,15 +412,15 @@ Array [
 exports[`Fetcher should use pagination 1`] = `
 Array [
   Array [
-    "/api/zero",
+    "/api/zero?limit=500&offset=0&",
     Object {
-      "body": "{\\"limit\\":100,\\"offset\\":0,\\"orderBys\\":[]}",
+      "body": undefined,
       "credentials": "include",
       "headers": Object {
         "Authorization": "Basic dummy_token",
         "Content-Type": "application/json",
       },
-      "method": "POST",
+      "method": "GET",
     },
   ],
 ]

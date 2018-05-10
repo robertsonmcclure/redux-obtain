@@ -4,7 +4,7 @@ export let config = {
         Authorization: `Basic ${state.authentication.token}`
     }),
     reduxStoreName: "resources",
-    paginationInitialLoadLimit: 100,
+    paginationInitialLoadLimit: 500,
     getOrderBys: props =>
         props && props.sortBy && props.sortDirection
             ? props.sortBy.map((column, index) => ({
