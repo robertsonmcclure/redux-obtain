@@ -1,6 +1,6 @@
 {
     "name": "redux-obtain",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "An opinionated way to obtain data from a server",
     "main": "lib/index.js",
     "author": "Robertson McClure <ephipitau@gmail.com>",
@@ -37,6 +37,7 @@
         "setupFiles": [
             "./test/setup.js"
         ],
+        "testURL": "http://localhost/",
         "automock": false
     },
     "devDependencies": {
@@ -74,9 +75,10 @@
         "codecov": "^2.2.0",
         "create-react-class": "^15.5.3",
         "cross-env": "^5.0.1",
-        "enzyme": "^3.3.0",
-        "enzyme-adapter-react-15": "^1.0.5",
-        "enzyme-to-json": "^3.3.1",
+        "enzyme": "^3.10.0",
+        "enzyme-adapter-react-15": "^1.4.1",
+        "enzyme-adapter-react-16": "^1.1.1",
+        "enzyme-to-json": "^3.4.2",
         "es3ify": "^0.2.0",
         "eslint": "^4.0.0",
         "eslint-plugin-import": "^2.2.0",
@@ -89,8 +91,11 @@
         "jsdom": "^11.0.0",
         "mocha": "^3.2.0",
         "nyc": "^11.0.2",
-        "react-dom": "^16.2.0",
-        "react-test-renderer": "^15.6.2",
+        "react-dom": "^16.10.2",
+        "react-redux": "^7.1.1",
+        "react": "^16.10.2",
+        "redux": "4.0.4",
+        "react-test-renderer": "^16.10.2",
         "redux-mock-store": "^1.4.0",
         "rimraf": "^2.3.4",
         "rollup": "^0.43.0",
@@ -102,12 +107,18 @@
     },
     "dependencies": {
         "bluebird": "^3.5.1",
-        "enzyme-adapter-react-16": "^1.1.1",
         "lodash": "^4.17.4",
         "querystring": "^0.2.0",
-        "react": "^16.2.0",
-        "react-display-name": "^0.2.3",
-        "react-redux": "^5.0.6",
-        "redux": "^3.7.2"
+        "react-display-name": "^0.2.3"
+    },
+    "peerDependencies": {
+        "react-redux": "^7.1.1",
+        "react": "^16.10.2",
+        "redux": "4.0.4"
+    },
+    "prettier": {
+        "tabWidth": 4,
+        "semi": false,
+        "printWidth": 100
     }
 }
