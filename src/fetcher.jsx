@@ -37,8 +37,11 @@ export const fetcher = (
         class Fetcher extends Component {
             static displayName = `Fetcher(${getDisplayName(WrappedComponent)})`
 
+            constructor(props) {
+                super(props)
+                props.addResource(name, paginationKey) // dispatching actions in the constructor is somewhat discouraged, but this is essentially just setting up state. Just, it's in the store so we can call getResourceData() from elsewhere.
+            }
             componentDidMount() {
-                this.props.addResource(name, paginationKey)
                 this.sendNetworkRequest({
                     limit: config.paginationInitialLoadLimit,
                     offset: 0,
