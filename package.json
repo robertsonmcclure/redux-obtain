@@ -1,5 +1,5 @@
 {
-    "name": "redux-obtain",
+    "name": "@jonahgroup-hvpa/redux-obtain",
     "version": "1.1.0",
     "description": "An opinionated way to obtain data from a server",
     "main": "lib/index.js",
