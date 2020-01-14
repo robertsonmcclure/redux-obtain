@@ -1,6 +1,6 @@
 {
     "name": "@jonahgroup-hvpa/redux-obtain",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "An opinionated way to obtain data from a server",
     "main": "lib/index.js",
     "author": "Robertson McClure <ephipitau@gmail.com>",
