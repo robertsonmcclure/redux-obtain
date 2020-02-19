@@ -71,7 +71,7 @@
         "babel-plugin-transform-react-jsx": "^6.4.0",
         "babel-register": "^6.3.13",
         "chai": "^4.1.2",
-        "codecov": "^2.2.0",
+        "codecov": "^3.6.5",
         "create-react-class": "^15.5.3",
         "cross-env": "^5.0.1",
         "enzyme": "^3.3.0",
