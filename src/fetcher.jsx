@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import * as actions from "./actions"
-import * as C from "./constants"
 import { config } from "./config"
 import Promise from "bluebird"
 import _ from "lodash"
@@ -37,10 +36,9 @@ export const fetcher = (
     )(
         class Fetcher extends Component {
             static displayName = `Fetcher(${getDisplayName(WrappedComponent)})`
-            componentWillMount() {
-                this.props.addResource(name, paginationKey)
-            }
+
             componentDidMount() {
+                this.props.addResource(name, paginationKey)
                 this.sendNetworkRequest({
                     limit: config.paginationInitialLoadLimit,
                     offset: 0,
@@ -53,22 +51,23 @@ export const fetcher = (
                 this.networkRequest && this.networkRequest.cancel()
                 !persistResource && this.props.removeResource(name)
             }
-            componentWillReceiveProps(nextProps) {
+            componentDidUpdate(prevProps) {
                 if (
-                    !_.isEqual(this.props.requestBody, nextProps.requestBody) ||
-                    !_.isEqual(this.props.endpoint, nextProps.endpoint)
+                    !_.isEqual(prevProps.requestBody, this.props.requestBody) ||
+                    !_.isEqual(prevProps.endpoint, this.props.endpoint)
                 ) {
                     this.networkRequest && this.networkRequest.cancel()
                     this.sendNetworkRequest({
-                        endpoint: nextProps.endpoint,
+                        endpoint: this.props.endpoint,
                         limit: config.paginationInitialLoadLimit,
                         offset: 0,
                         orderBys: config.getOrderBys(defaultOrderBys),
                         firstLoad: true,
-                        requestBody: nextProps.requestBody
+                        requestBody: this.props.requestBody
                     })
                 }
             }
+
             sendNetworkRequest = ({
                 limit,
                 offset,
@@ -78,7 +77,6 @@ export const fetcher = (
                 endpoint
             }) => {
                 firstLoad && this.props.requestResource(name)
-                const paginationBody = paginationKey ? { limit, offset, orderBys } : {}
                 const sort = orderBys.map(
                     item => `${item.direction === "DESC" ? "-" : ""}${item.column}`
                 )
@@ -109,15 +107,14 @@ export const fetcher = (
                         if (res.status === 200) {
                             return res
                                 .json()
-                                .then(
-                                    data =>
-                                        firstLoad
-                                            ? this.props.fetchSuccess(name, data, acceptResponse)
-                                            : this.props.fetchAdditionalSuccess(
-                                                  name,
-                                                  data,
-                                                  acceptResponse
-                                              )
+                                .then(data =>
+                                    firstLoad
+                                        ? this.props.fetchSuccess(name, data, acceptResponse)
+                                        : this.props.fetchAdditionalSuccess(
+                                              name,
+                                              data,
+                                              acceptResponse
+                                          )
                                 )
                         } else {
                             return res.text().then(error => this.props.fetchError(name, error))
