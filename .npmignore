@@ -1,3 +1,7 @@
+.idea/
 src/
 node_modules/
 coverage/
+*.iml
+*.lnk
+*.bat
