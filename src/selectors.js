@@ -1,13 +1,12 @@
 import { config } from "./config"
 
-export const getResourceData = (name, selector) => state =>
-    state[config.reduxStoreName][name]
-        ? selector
-          ? selector(state[config.reduxStoreName][name].data)
-          : state[config.reduxStoreName][name].data
-        : undefined
+export const getResourceData = (name, selector) => state => {
+    const resource = state[config.reduxStoreName][name]
+    if (!resource) return undefined
+    return selector ? selector(resource.data) : resource.data
+}
 
-export const getMetaData = name => state => ({
-    loading: state[config.reduxStoreName][name].loading,
-    error: state[config.reduxStoreName][name].error
-})
+export const getMetaData = name => state => {
+    const { loading, error } = state[config.reduxStoreName][name] || {}
+    return { loading, error }
+}
