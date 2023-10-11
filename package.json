@@ -1,6 +1,6 @@
 {
   "name": "@healthfocus/redux-obtain",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "An opinionated way to obtain data from a server",
   "main": "lib/index.js",
   "author": "Robertson McClure <ephipitau@gmail.com>",
