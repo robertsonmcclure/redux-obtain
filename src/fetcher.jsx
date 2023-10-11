@@ -10,15 +10,15 @@ import qs from "querystring"
 Promise.config({ cancellation: true })
 
 /* valid props: {
- *      name,
- *      endpoint,
- *      method,
- *      acceptResponse,
- *      persistResource,
- *      requestBodySelector,
- *      defaultOrderBys,
- *      paginationKey
- *  }
+        name,
+        endpoint,
+        method,
+        acceptResponse,
+        persistResource,
+        requestBodySelector,
+        defaultOrderBys,
+        paginationKey
+    }
  */
 
 export const fetcher = (props, extraActions) => WrappedComponent =>
@@ -148,8 +148,29 @@ export const fetcher = (props, extraActions) => WrappedComponent =>
                 })
             }
             render() {
-                let pt = { ...this.props }
-                delete pt.endpoint
+                const {
+                    name,
+                    endpoint,
+                    method,
+                    acceptResponse,
+                    persistResource,
+                    requestBodySelector,
+                    defaultOrderBys,
+                    paginationKey,
+                    resource,
+                    ...pt
+                } = this.props
+                const fetcher = _.pickBy({
+                    name,
+                    endpoint,
+                    method,
+                    acceptResponse,
+                    persistResource,
+                    requestBodySelector,
+                    defaultOrderBys,
+                    paginationKey
+                })
+
                 delete pt.addResource
                 delete pt.requestResource
                 delete pt.fetchSuccess
@@ -158,20 +179,20 @@ export const fetcher = (props, extraActions) => WrappedComponent =>
                 delete pt.removeResource
                 delete pt.requestBody
                 delete pt.requestHeader
-                delete pt.resource
-                const paginationFunctions = this.props.paginationKey
+                const paginationFunctions = paginationKey
                     ? {
                           _loadMoreRows: this.loadMoreRows,
                           _loadInitialRows: this.loadInitialRows,
-                          totalSize: this.props.resource && this.props.resource.data.totalCount
+                          totalSize: resource && resource.data.totalCount
                       }
                     : undefined
 
-                return this.props.resource ? (
+                return resource ? (
                     <WrappedComponent
                         {...pt}
-                        {...this.props.resource}
+                        {...resource}
                         paginationFunctions={paginationFunctions}
+                        fetcher={fetcher}
                     />
                 ) : (
                     <div />
