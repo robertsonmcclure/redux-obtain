@@ -232,10 +232,15 @@ exports[`Fetcher should mount, call fetch and dispatch actions 1`] = `
       <Component
         data={Object {}}
         error={false}
+        fetcher={
+          Object {
+            "endpoint": "/api/endpoint",
+            "method": "GET",
+            "name": "NAME",
+          }
+        }
         loading={false}
-        method="GET"
         modifyResource={[Function]}
-        name="NAME"
         passthrough="attribute"
       >
         <div />
