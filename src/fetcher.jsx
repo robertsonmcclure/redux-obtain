@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import * as actions from "./actions"
-import * as C from "./constants"
 import { config } from "./config"
 import Promise from "bluebird"
 import _ from "lodash"
@@ -10,8 +9,7 @@ import qs from "querystring"
 
 Promise.config({ cancellation: true })
 
-export const fetcher = (
-    {
+/* valid props: {
         name,
         endpoint,
         method,
@@ -20,16 +18,23 @@ export const fetcher = (
         requestBodySelector,
         defaultOrderBys,
         paginationKey
-    },
-    extraActions
-) => WrappedComponent =>
+    }
+ */
+
+export const fetcher = (props, extraActions) => WrappedComponent =>
     connect(
-        (state, ownProps) => ({
-            endpoint: typeof endpoint === "function" ? endpoint(state, ownProps) : endpoint,
-            requestHeader: config.requestHeaderSelector(state),
-            resource: state[config.reduxStoreName][name],
-            requestBody: requestBodySelector && requestBodySelector(state, ownProps)
-        }),
+        (state, ownProps) => {
+            const mergedProps = { ...ownProps, ...props }
+            const { name, endpoint, requestBodySelector } = mergedProps
+
+            return {
+                ...mergedProps,
+                endpoint: typeof endpoint === "function" ? endpoint(state, ownProps) : endpoint,
+                requestHeader: config.requestHeaderSelector(state),
+                resource: state[config.reduxStoreName][name],
+                requestBody: requestBodySelector && requestBodySelector(state, ownProps)
+            }
+        },
         {
             ...extraActions,
             ...actions
@@ -37,53 +42,47 @@ export const fetcher = (
     )(
         class Fetcher extends Component {
             static displayName = `Fetcher(${getDisplayName(WrappedComponent)})`
-            componentWillMount() {
-                this.props.addResource(name, paginationKey)
-            }
+
             componentDidMount() {
+                this.props.addResource(this.props.name, this.props.paginationKey)
                 this.sendNetworkRequest({
                     limit: config.paginationInitialLoadLimit,
                     offset: 0,
-                    orderBys: config.getOrderBys(defaultOrderBys),
+                    orderBys: config.getOrderBys(this.props.defaultOrderBys),
                     firstLoad: true,
                     requestBody: this.props.requestBody
                 })
             }
             componentWillUnmount() {
                 this.networkRequest && this.networkRequest.cancel()
-                !persistResource && this.props.removeResource(name)
+                !this.props.persistResource && this.props.removeResource(this.props.name)
             }
-            componentWillReceiveProps(nextProps) {
+            componentDidUpdate(prevProps) {
                 if (
-                    !_.isEqual(this.props.requestBody, nextProps.requestBody) ||
-                    !_.isEqual(this.props.endpoint, nextProps.endpoint)
+                    !_.isEqual(prevProps.requestBody, this.props.requestBody) ||
+                    !_.isEqual(prevProps.endpoint, this.props.endpoint)
                 ) {
                     this.networkRequest && this.networkRequest.cancel()
                     this.sendNetworkRequest({
-                        endpoint: nextProps.endpoint,
+                        endpoint: this.props.endpoint,
                         limit: config.paginationInitialLoadLimit,
                         offset: 0,
-                        orderBys: config.getOrderBys(defaultOrderBys),
+                        orderBys: config.getOrderBys(this.props.defaultOrderBys),
                         firstLoad: true,
-                        requestBody: nextProps.requestBody
+                        requestBody: this.props.requestBody
                     })
                 }
             }
-            sendNetworkRequest = ({
-                limit,
-                offset,
-                orderBys,
-                firstLoad,
-                requestBody,
-                endpoint
-            }) => {
-                firstLoad && this.props.requestResource(name)
-                const paginationBody = paginationKey ? { limit, offset, orderBys } : {}
+
+            sendNetworkRequest = ({ limit, offset, orderBys, firstLoad, endpoint }) => {
+                firstLoad && this.props.requestResource(this.props.name)
                 const sort = orderBys.map(
                     item => `${item.direction === "DESC" ? "-" : ""}${item.column}`
                 )
-                const paginationQuery = paginationKey ? qs.stringify({ limit, offset, sort }) : ""
-                const requestMethod = paginationKey ? "GET" : method
+                const paginationQuery = this.props.paginationKey
+                    ? qs.stringify({ limit, offset, sort })
+                    : ""
+                const requestMethod = this.props.paginationKey ? "GET" : this.props.method || "GET"
                 const requestEndpoint = endpoint || this.props.endpoint
                 this.networkRequest = new Promise((res, rej) =>
                     fetch(
@@ -97,7 +96,7 @@ export const fetcher = (
                             body:
                                 requestMethod !== "GET"
                                     ? JSON.stringify({
-                                          ...requestBody
+                                          ...this.props.requestBody
                                       })
                                     : undefined
                         }
@@ -109,18 +108,23 @@ export const fetcher = (
                         if (res.status === 200) {
                             return res
                                 .json()
-                                .then(
-                                    data =>
-                                        firstLoad
-                                            ? this.props.fetchSuccess(name, data, acceptResponse)
-                                            : this.props.fetchAdditionalSuccess(
-                                                  name,
-                                                  data,
-                                                  acceptResponse
-                                              )
+                                .then(data =>
+                                    firstLoad
+                                        ? this.props.fetchSuccess(
+                                              this.props.name,
+                                              data,
+                                              this.props.acceptResponse
+                                          )
+                                        : this.props.fetchAdditionalSuccess(
+                                              this.props.name,
+                                              data,
+                                              this.props.acceptResponse
+                                          )
                                 )
                         } else {
-                            return res.text().then(error => this.props.fetchError(name, error))
+                            return res
+                                .text()
+                                .then(error => this.props.fetchError(this.props.name, error))
                         }
                     })
                     .catch(e => console.error(e))
@@ -132,7 +136,6 @@ export const fetcher = (
                     limit: stopIndex - startIndex,
                     offset: startIndex,
                     orderBys: config.getOrderBys(ui),
-                    requestBody: this.props.requestBody,
                     firstLoad: false
                 })
             }
@@ -141,13 +144,33 @@ export const fetcher = (
                     limit: config.paginationInitialLoadLimit,
                     offset: 0,
                     orderBys: config.getOrderBys(props),
-                    requestBody: this.props.requestBody,
                     firstLoad: true
                 })
             }
             render() {
-                let pt = { ...this.props }
-                delete pt.endpoint
+                const {
+                    name,
+                    endpoint,
+                    method,
+                    acceptResponse,
+                    persistResource,
+                    requestBodySelector,
+                    defaultOrderBys,
+                    paginationKey,
+                    resource,
+                    ...pt
+                } = this.props
+                const fetcher = _.pickBy({
+                    name,
+                    endpoint,
+                    method,
+                    acceptResponse,
+                    persistResource,
+                    requestBodySelector,
+                    defaultOrderBys,
+                    paginationKey
+                })
+
                 delete pt.addResource
                 delete pt.requestResource
                 delete pt.fetchSuccess
@@ -156,19 +179,20 @@ export const fetcher = (
                 delete pt.removeResource
                 delete pt.requestBody
                 delete pt.requestHeader
-                delete pt.resource
                 const paginationFunctions = paginationKey
                     ? {
                           _loadMoreRows: this.loadMoreRows,
                           _loadInitialRows: this.loadInitialRows,
-                          totalSize: this.props.resource && this.props.resource.data.totalCount
+                          totalSize: resource && resource.data.totalCount
                       }
                     : undefined
-                return this.props.resource ? (
+
+                return resource ? (
                     <WrappedComponent
                         {...pt}
-                        {...this.props.resource}
+                        {...resource}
                         paginationFunctions={paginationFunctions}
+                        fetcher={fetcher}
                     />
                 ) : (
                     <div />

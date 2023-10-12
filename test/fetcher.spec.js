@@ -1,10 +1,10 @@
-import React, { Component } from "react"
+import React from "react"
 import { Provider } from "react-redux"
-import { createStore, combineReducers } from "redux"
-import { shallow, mount } from "enzyme"
+import { mount, shallow } from "enzyme"
 import toJson from "enzyme-to-json"
-import { fetcher, reducer } from "../src"
 import configureStore from "redux-mock-store"
+import { fetcher } from "../src"
+
 const mockStore = configureStore()
 Date.now = jest.fn(() => 42)
 
@@ -42,9 +42,11 @@ describe("Fetcher", () => {
         )
     })
     it("should render empty div if store gets messed with", () => {
-        const Container = fetcher({ name: "NAME", endpoint: "/api/endpoint", method: "GET" })(
-            () => <div />
-        )
+        const Container = fetcher({
+            name: "NAME",
+            endpoint: "/api/endpoint",
+            method: "GET"
+        })(() => <div />)
         const store = mockStore({ ...initialStore, resources: {} })
         const wrapper = mount(
             <Provider store={store}>
@@ -54,9 +56,11 @@ describe("Fetcher", () => {
         expect(toJson(wrapper)).toMatchSnapshot()
     })
     it("should mount, call fetch and dispatch actions", () => {
-        const Container = fetcher({ name: "NAME", endpoint: "/api/endpoint", method: "GET" })(
-            () => <div />
-        )
+        const Container = fetcher({
+            name: "NAME",
+            endpoint: "/api/endpoint",
+            method: "GET"
+        })(() => <div />)
         const store = mockStore(initialStore)
         const wrapper = mount(
             <Provider store={store}>
@@ -68,9 +72,11 @@ describe("Fetcher", () => {
         expect(fetch.mock.calls).toMatchSnapshot()
     })
     it("should dispatch unmount action on unmount", () => {
-        const Container = fetcher({ name: "NAME", endpoint: "/api/endpoint", method: "GET" })(
-            () => <div />
-        )
+        const Container = fetcher({
+            name: "NAME",
+            endpoint: "/api/endpoint",
+            method: "GET"
+        })(() => <div />)
         const store = mockStore(initialStore)
         const wrapper = mount(
             <Provider store={store}>
@@ -177,6 +183,7 @@ describe("Fetcher", () => {
         await wait(1000)
         wrapper
             .dive()
+            .dive()
             .instance()
             .loadMoreRows({ startIndex: 100, stopIndex: 250 })
         expect(fetch.mock.calls).toMatchSnapshot()
@@ -190,10 +197,12 @@ describe("Fetcher", () => {
             method: "POST",
             paginationKey: "pKey"
         })(() => <div />)
+
         const store = mockStore(initialStore)
         const wrapper = shallow(<Container store={store} stuff={{ one: "two" }} />)
         await wait(1000)
         wrapper
+            .dive()
             .dive()
             .instance()
             .loadInitialRows({ sortBy: ["columnKey"], sortDirection: ["ASC"] })

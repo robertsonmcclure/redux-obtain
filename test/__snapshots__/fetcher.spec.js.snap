@@ -209,7 +209,9 @@ exports[`Fetcher should mount, call fetch and dispatch actions 1`] = `
       fetchAdditionalSuccess={[Function]}
       fetchError={[Function]}
       fetchSuccess={[Function]}
+      method="GET"
       modifyResource={[Function]}
+      name="NAME"
       passthrough="attribute"
       removeResource={[Function]}
       requestHeader={
@@ -230,6 +232,13 @@ exports[`Fetcher should mount, call fetch and dispatch actions 1`] = `
       <Component
         data={Object {}}
         error={false}
+        fetcher={
+          Object {
+            "endpoint": "/api/endpoint",
+            "method": "GET",
+            "name": "NAME",
+          }
+        }
         loading={false}
         modifyResource={[Function]}
         passthrough="attribute"
@@ -294,7 +303,9 @@ exports[`Fetcher should render empty div if store gets messed with 1`] = `
       fetchAdditionalSuccess={[Function]}
       fetchError={[Function]}
       fetchSuccess={[Function]}
+      method="GET"
       modifyResource={[Function]}
+      name="NAME"
       passthrough="attribute"
       removeResource={[Function]}
       requestHeader={
@@ -314,7 +325,7 @@ exports[`Fetcher should render empty div if store gets messed with 1`] = `
 exports[`Fetcher should use loadInitialRows with different orderBys 1`] = `
 Array [
   Array [
-    "/api/zero?limit=500&offset=0&",
+    "/api/zero?limit=500&offset=0",
     Object {
       "body": undefined,
       "credentials": "include",
@@ -343,7 +354,7 @@ Array [
 exports[`Fetcher should use loadMoreRows 1`] = `
 Array [
   Array [
-    "/api/zero?limit=500&offset=0&",
+    "/api/zero?limit=500&offset=0",
     Object {
       "body": undefined,
       "credentials": "include",
@@ -355,7 +366,7 @@ Array [
     },
   ],
   Array [
-    "/api/zero?limit=150&offset=100&",
+    "/api/zero?limit=150&offset=100",
     Object {
       "body": undefined,
       "credentials": "include",
@@ -412,7 +423,7 @@ Array [
 exports[`Fetcher should use pagination 1`] = `
 Array [
   Array [
-    "/api/zero?limit=500&offset=0&",
+    "/api/zero?limit=500&offset=0",
     Object {
       "body": undefined,
       "credentials": "include",
