@@ -1,8 +1,11 @@
+import _ from "lodash"
+
+const requestHeaderSelector = _.memoize(token => ({
+    "Content-Type": "application/json",
+    Authorization: `Basic ${token}`
+}))
 export let config = {
-    requestHeaderSelector: state => ({
-        "Content-Type": "application/json",
-        Authorization: `Basic ${state.authentication.token}`
-    }),
+    requestHeaderSelector: state => requestHeaderSelector(state.authentication.token),
     reduxStoreName: "resources",
     paginationInitialLoadLimit: 500,
     getOrderBys: props =>
